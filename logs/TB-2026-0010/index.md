@@ -153,7 +153,7 @@ Finally, here is a clearer visual comparison of all three scan types we've done 
 
 ### Open port TCP stream conversations
 
-The Nmap -sT and -sS scans are somewhat similar, the -sT TCP connect scan has the following packets: `[SYN], [SYN, ACK], [ACK], [RST, ACK]`, completing the TCP 3-way handshake. The -sS stealth has the same first two packets: `[SYN] and [SYN, ACK]`, and then only a third packet: `[RST]`, which doesn't complete the TCP 3-way handshake, and instead tears down the socket connection abruptly, without even acknowledging the `[SYN, ACK]` preceding it.
+The Nmap -sT and -sS scans are somewhat similar, the -sT TCP connect scan has the following packets: `[SYN], [SYN, ACK], [ACK], [RST, ACK]`, completing the TCP 3-way handshake. The -sS stealth scan has the same first two packets: `[SYN] and [SYN, ACK]`, and then only a third packet: `[RST]`, which doesn't complete the TCP 3-way handshake, and instead tears down the socket connection abruptly, without even acknowledging the `[SYN, ACK]` preceding it.
 
 The pscan conversation on the other hand, starts with the same 3-way TCP handshake as the -sT TCP connect scan, but instead of tearing down the connection with: `[RST, ACK]`, it attempts to do a formal 4-way closing handshake with: `[FIN, ACK], [ACK], [FIN, ACK], [ACK]`, but instead ends with a messier: `[FIN, ACK], [ACK], [FIN, ACK], [RST], [RST]`. As mentioned above in more detail, this happened due to the limitations of the program, and uncleared data in the kernel buffer before closing the connection.
 
