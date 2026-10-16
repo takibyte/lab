@@ -7,7 +7,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     const options = document.querySelectorAll('.theme-option');
     const labels = document.querySelectorAll('.theme-dropdown-label');
-    const saved = localStorage.getItem('theme') || 'dark';
+    const saved = localStorage.getItem('theme') || 'tokyonight';
     applyTheme(saved);
 
     function setActive(name){
