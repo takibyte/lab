@@ -2,7 +2,7 @@
 title: SIEM detection lab with Splunk
 description: Building a SIEM detection lab and triaging alerts.
 type: series
-status: paused
+status: active
 icon: shield
 featured: false
 order: 4
