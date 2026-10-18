@@ -252,16 +252,32 @@ header{
   border-bottom:1px solid var(--line);
 }
 .logo{
-  font-weight:700;font-size:20px;letter-spacing:-0.02em;
-  display:flex;align-items:center;gap:8px;
+  font-weight:600;font-size:20px;letter-spacing:-0.0em;
+  display:flex;align-items:center;gap:2px;
+  font-family:var(--font-mono);
 }
 .logo:hover{opacity:0.8;}
-.logo::before{
+/* .logo::before{
   content:"";
   width:9px;height:9px;border-radius:50%;
   background:var(--accent-1);
   box-shadow:0 0 10px var(--accent-1);
+} */
+ .logo::after {
+  content:"";
+  margin-left: 8px;
+  width:11px;height:22px;
+  background:var(--accent-1);
+  box-shadow:0 0 10px var(--accent-1);
 }
+ /* .logo::before {
+  content:"";
+  margin-right: 8px;
+  width:11px;height:22px;
+  background:var(--accent-1);
+  box-shadow:0 0 10px var(--accent-1);
+} */
+
 nav{display:flex;gap:30px;font-size:14px;color:var(--muted);}
 nav a:hover{color:var(--ink);}
 nav a.active{color:var(--accent-1);}
