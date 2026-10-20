@@ -4,8 +4,8 @@ description: A collection of CTF writeups for TryHackMe challenge rooms.
 type: series
 status: active
 icon: ctf
-featured: true
-order: 1
+featured: false
+order: 4
 tags: [CTF, Penetration testing, TryHackMe]
 estimatedTotal: 8        # series only — drives the progress bar %
 logs:
