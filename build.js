@@ -95,14 +95,15 @@ function statusBadgeClass(status) {
 }
 
 const THEMES = [
-  { value: 'dark', label: 'Dark' },
-  { value: 'light', label: 'Light' },
-  { value: 'tokyonight', label: 'Tokyo night' },
-  { value: 'nord', label: 'Nord' },
-  { value: 'redteam', label: 'Red team' },
-  { value: 'blueteam', label: 'Blue team' },
-  { value: 'cyberpunk', label: 'Cyberpunk' },
-  { value: 'paper', label: 'Paper' },
+  { value: 'dark', label: 'dark' },
+  { value: 'light', label: 'light' },
+  { value: 'tokyonight', label: 'tokyo night' },
+  { value: 'sakuranight', label: 'sakura night' },
+  { value: 'blueteam', label: 'blue team' },
+  { value: 'redteam', label: 'red team' },
+  { value: 'nord', label: 'nord' },
+  { value: 'paper', label: 'paper' },
+  { value: 'cyberpunk', label: 'cyberpunk' },
 ];
 
 function renderThemeOptions() {
@@ -682,6 +683,7 @@ rawLogs.forEach((log) => {
   const seriesInfo = logToProject.get(slug);
 
   const page = logTemplate
+    .replaceAll('{{slug}}', slug ?? '')
     .replaceAll('{{title}}', data.title ?? '')
     .replaceAll('{{dek}}', data.dek ?? '')
     .replaceAll('{{author}}', data.author ?? '')
@@ -717,6 +719,7 @@ rawLogs.forEach((log) => {
 
 for (const p of projects) {
   const page = projectTemplate
+    .replaceAll('{{slug}}', p.slug)
     .replaceAll('{{title}}', p.title)
     .replaceAll('{{description}}', p.description)
     .replace('{{typeBadge}}', p.type === 'tool' ? 'Tool' : 'Series')

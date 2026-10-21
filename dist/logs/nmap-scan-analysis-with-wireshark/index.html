@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nmap scan analysis with Wireshark</title>
+<title>Nmap scan analysis with Wireshark | takibyte</title>
 <meta name="description" content="Part 2 of capturing and analysing Nmap -sT and -sS port scans with Wireshark.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -22,7 +22,7 @@
 <body>
 
 <header>
-  <a class="logo" href="/">takibyte</a>
+  <a class="logo" href="/" aria-label="takibyte home"><span class="user">takibyte</span><span class="host">@lab</span><span class="path">:/logs/</span></a>
   <nav>
     <a href="/projects/">Projects</a>
     <a class="active" href="/logs/">Logs</a>
@@ -35,14 +35,15 @@
         <svg class="theme-dropdown-chevron" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </summary>
       <div class="theme-dropdown-menu" role="listbox">
-        <button type="button" class="theme-option mono" data-theme-value="dark" role="option">Dark</button>
-        <button type="button" class="theme-option mono" data-theme-value="light" role="option">Light</button>
-        <button type="button" class="theme-option mono" data-theme-value="tokyonight" role="option">Tokyo night</button>
-        <button type="button" class="theme-option mono" data-theme-value="nord" role="option">Nord</button>
-        <button type="button" class="theme-option mono" data-theme-value="redteam" role="option">Red team</button>
-        <button type="button" class="theme-option mono" data-theme-value="blueteam" role="option">Blue team</button>
-        <button type="button" class="theme-option mono" data-theme-value="cyberpunk" role="option">Cyberpunk</button>
-        <button type="button" class="theme-option mono" data-theme-value="paper" role="option">Paper</button>
+        <button type="button" class="theme-option mono" data-theme-value="dark" role="option">dark</button>
+        <button type="button" class="theme-option mono" data-theme-value="light" role="option">light</button>
+        <button type="button" class="theme-option mono" data-theme-value="tokyonight" role="option">tokyo night</button>
+        <button type="button" class="theme-option mono" data-theme-value="sakuranight" role="option">sakura night</button>
+        <button type="button" class="theme-option mono" data-theme-value="blueteam" role="option">blue team</button>
+        <button type="button" class="theme-option mono" data-theme-value="redteam" role="option">red team</button>
+        <button type="button" class="theme-option mono" data-theme-value="nord" role="option">nord</button>
+        <button type="button" class="theme-option mono" data-theme-value="paper" role="option">paper</button>
+        <button type="button" class="theme-option mono" data-theme-value="cyberpunk" role="option">cyberpunk</button>
       </div>
     </details>
   <!-- <a class="subscribe" href="#">subscribe →</a> -->
@@ -50,6 +51,46 @@
     <span></span>
   </button>
 </header>
+<script>
+(function(){
+  var logo = document.querySelector('.logo');
+  var u = logo.querySelector('.user'), h = logo.querySelector('.host'), p = logo.querySelector('.path');
+  var ul = u.textContent.length, hl = h.textContent.length;
+  var target = u.textContent + h.textContent + p.textContent;
+
+  var prev = '';
+  try {
+    prev = sessionStorage.getItem('logoText') || '';
+    sessionStorage.setItem('logoText', target);
+  } catch(e){}
+
+  if (prev === target || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var common = 0;
+  while (common < prev.length && common < target.length && prev[common] === target[common]) common++;
+
+  logo.style.minWidth = logo.offsetWidth + 'px'; // measure while the final text is still in place
+
+  function render(s){
+    u.textContent = s.slice(0, ul);
+    h.textContent = s.slice(ul, ul + hl);
+    p.textContent = s.slice(ul + hl);
+  }
+
+  var n = prev.length;
+  render(prev); // previous page's text goes in before the first paint
+
+  (function erase(){
+    if (n > common){ render(prev.slice(0, --n)); setTimeout(erase, 30 + Math.random() * 25); }
+    else setTimeout(type, n < prev.length ? 180 : 0);
+  })();
+
+  function type(){
+    if (n < target.length){ render(target.slice(0, ++n)); setTimeout(type, 55 + Math.random() * 70); }
+    else logo.classList.add('typed');
+  }
+})();
+</script>
 
 <div class="mobile-nav" id="mobileNav">
   <a href="/projects/">Projects</a>
@@ -62,14 +103,15 @@
         <svg class="theme-dropdown-chevron" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </summary>
       <div class="theme-dropdown-menu" role="listbox">
-        <button type="button" class="theme-option mono" data-theme-value="dark" role="option">Dark</button>
-        <button type="button" class="theme-option mono" data-theme-value="light" role="option">Light</button>
-        <button type="button" class="theme-option mono" data-theme-value="tokyonight" role="option">Tokyo night</button>
-        <button type="button" class="theme-option mono" data-theme-value="nord" role="option">Nord</button>
-        <button type="button" class="theme-option mono" data-theme-value="redteam" role="option">Red team</button>
-        <button type="button" class="theme-option mono" data-theme-value="blueteam" role="option">Blue team</button>
-        <button type="button" class="theme-option mono" data-theme-value="cyberpunk" role="option">Cyberpunk</button>
-        <button type="button" class="theme-option mono" data-theme-value="paper" role="option">Paper</button>
+        <button type="button" class="theme-option mono" data-theme-value="dark" role="option">dark</button>
+        <button type="button" class="theme-option mono" data-theme-value="light" role="option">light</button>
+        <button type="button" class="theme-option mono" data-theme-value="tokyonight" role="option">tokyo night</button>
+        <button type="button" class="theme-option mono" data-theme-value="sakuranight" role="option">sakura night</button>
+        <button type="button" class="theme-option mono" data-theme-value="blueteam" role="option">blue team</button>
+        <button type="button" class="theme-option mono" data-theme-value="redteam" role="option">red team</button>
+        <button type="button" class="theme-option mono" data-theme-value="nord" role="option">nord</button>
+        <button type="button" class="theme-option mono" data-theme-value="paper" role="option">paper</button>
+        <button type="button" class="theme-option mono" data-theme-value="cyberpunk" role="option">cyberpunk</button>
       </div>
     </details>
   <!-- <a class="subscribe" href="#">subscribe →</a> -->
@@ -134,7 +176,7 @@
   <div class="wrap">
     <div class="log-header page-header-spacing">
       <div class="breadcrumb">
-        <a href="/">takibyte</a><span class="sep">/</span><a href="/logs/">Logs</a><span class="sep">/</span><a href="">Nmap scan analysis with Wireshark</a>
+        <a href="/">lab.takibyte.com</a><span class="sep">/</span><a href="/logs/">logs</a><span class="sep">/</span><span aria-current="page">nmap-scan-analysis-with-wireshark</span>
       </div>
       <div class="log-cat cat-homelab mono cat-homelab">HOMELAB</div>
       <h1 class="headline">Nmap scan analysis with Wireshark</h1>
@@ -280,7 +322,7 @@
     <a href="/logs/?q=network%20protocols" class="tag">Network protocols</a>
     </div>
 
-    <a href="/about/">
+    <a class="author-link" href="/about/">
       <div class="author-card">
         <div class="author-avatar"></div>
         <div>
@@ -345,7 +387,7 @@
 </div>
 
 <footer>
-  <span><a href="https://takibyte.com">takibyte.com</a> — est. 2026</span>
+  <span><a href="https://takibyte.com">takibyte.com — est. 2026</span></a>
   <span><a href="https://github.com/takibyte">GitHub</a> · <a href="https://tryhackme.com/p/takibyte">TryHackMe</a></span>
 </footer>
 

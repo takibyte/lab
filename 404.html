@@ -75,7 +75,7 @@
 <body>
 
 <header>
-  <a class="logo" href="/">takibyte</a>
+  <a class="logo" href="/" aria-label="takibyte home"><span class="user">takibyte</span><span class="host">@lab</span><span class="path">:/404.html</span></a>
   <nav>
     <a href="/projects/">Projects</a>
     <a href="/logs/">Logs</a>
@@ -86,6 +86,46 @@
     <span></span>
   </button>
 </header>
+<script>
+(function(){
+  var logo = document.querySelector('.logo');
+  var u = logo.querySelector('.user'), h = logo.querySelector('.host'), p = logo.querySelector('.path');
+  var ul = u.textContent.length, hl = h.textContent.length;
+  var target = u.textContent + h.textContent + p.textContent;
+
+  var prev = '';
+  try {
+    prev = sessionStorage.getItem('logoText') || '';
+    sessionStorage.setItem('logoText', target);
+  } catch(e){}
+
+  if (prev === target || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var common = 0;
+  while (common < prev.length && common < target.length && prev[common] === target[common]) common++;
+
+  logo.style.minWidth = logo.offsetWidth + 'px'; // measure while the final text is still in place
+
+  function render(s){
+    u.textContent = s.slice(0, ul);
+    h.textContent = s.slice(ul, ul + hl);
+    p.textContent = s.slice(ul + hl);
+  }
+
+  var n = prev.length;
+  render(prev); // previous page's text goes in before the first paint
+
+  (function erase(){
+    if (n > common){ render(prev.slice(0, --n)); setTimeout(erase, 30 + Math.random() * 25); }
+    else setTimeout(type, n < prev.length ? 180 : 0);
+  })();
+
+  function type(){
+    if (n < target.length){ render(target.slice(0, ++n)); setTimeout(type, 55 + Math.random() * 70); }
+    else logo.classList.add('typed');
+  }
+})();
+</script>
 
 <div class="mobile-nav" id="mobileNav">
   <a href="/projects/">Projects</a>
