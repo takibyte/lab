@@ -448,6 +448,9 @@ footer{
   font-size:12.5px;color:var(--muted);
 }
 
+footer a{transition:color .15s;}
+footer a:hover{color:var(--accent-1);text-decoration:underline;text-underline-offset:3px;}
+
 /* ---- mobile nav (hamburger + dropdown) ---- */
 .menu-toggle{
   display:none;
@@ -885,7 +888,7 @@ footer{
 .breadcrumb .sep{margin:0 8px;color:var(--line);}
 
 /* .breadcrumb{display:flex;flex-wrap:wrap;gap:0;} */
-/* .breadcrumb [aria-current="page"]{color:var(--ink-soft);overflow-wrap:anywhere;} */
+.breadcrumb [aria-current="page"]{color:var(--ink-soft);overflow-wrap:anywhere;}
 
 .page-header-spacing{padding-top:48px;}
 
@@ -936,6 +939,8 @@ h1.headline{
   font-family:var(--font-mono);font-size:13px;
   gap:8px 12px; /* row-gap column-gap — row-gap only matters once it wraps */
   flex-wrap:wrap;
+  position:relative;               /* anchors the overlay below */
+  transition:border-color .15s;
 }
 .series-badge a{
   color:var(--accent-1);
@@ -947,6 +952,15 @@ h1.headline{
   color:var(--muted);
   flex-shrink:0;     /* never shrinks */
   white-space:nowrap; /* "1 of 2" itself is never allowed to break across lines */
+}
+
+.series-badge:hover{border-color:var(--line-hover);}
+.series-badge:hover a{text-decoration:underline;}
+
+.series-badge a::after{
+  content:"";
+  position:absolute;
+  inset:0;                         /* stretches the link's click area over the whole badge */
 }
 
 .log-media{
@@ -1054,8 +1068,8 @@ article.body img{
 .author-link:hover .author-card{border-color:var(--line-hover);}
 
 .log-nav{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:44px 0 90px;}
-.log-nav a{padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--surface);}
-.log-nav a:hover{border-color:var(--muted);}
+.log-nav a{padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--surface);transition:border-color .15s;}
+.log-nav a:hover{border-color:var(--line-hover);}
 .log-nav .dir{
   font-family:var(--font-mono);
   font-size:11.5px;letter-spacing:0.05em;text-transform:uppercase;

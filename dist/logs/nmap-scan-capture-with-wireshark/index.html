@@ -338,7 +338,7 @@ Capturing this type of network traffic, is also a good excuse to go over some of
   <pre><span class="hljs-attribute">sudo</span> nmap -sS -F -V <span class="hljs-number">192.168.8.120</span>
 
 <span class="hljs-comment"># [sudo nmap] privileged access is required to run nmap -sS</span>
-<span class="hljs-comment"># [-sS] sets the scan type to TCP connect scan</span>
+<span class="hljs-comment"># [-sS] sets the scan type to SYN stealth / half-open</span>
 <span class="hljs-comment"># [-F] sets the scan to fast mode (scans the 100 most commonly used ports)</span>
 <span class="hljs-comment"># [-V] makes the scan verbose</span>
 <span class="hljs-comment"># [192.168.8.120] this is the target IP address to be scanned</span></pre>
@@ -451,7 +451,7 @@ However, I am sure there will be some differences with how Nmap handles the conn
 </div>
 
 <footer>
-  <span><a href="https://takibyte.com">takibyte.com — est. 2026</span></a>
+  <span><a href="https://takibyte.com">takibyte.com</a> — est. 2026</span>
   <span><a href="https://github.com/takibyte">GitHub</a> · <a href="https://tryhackme.com/p/takibyte">TryHackMe</a></span>
 </footer>
 

@@ -156,7 +156,7 @@ Now that we have an understanding of the basic TCP mechanism of the -sS scan, I'
 sudo nmap -sS -F -V 192.168.8.120
 
 # [sudo nmap] privileged access is required to run nmap -sS
-# [-sS] sets the scan type to TCP connect scan
+# [-sS] sets the scan type to SYN stealth / half-open
 # [-F] sets the scan to fast mode (scans the 100 most commonly used ports)
 # [-V] makes the scan verbose
 # [192.168.8.120] this is the target IP address to be scanned
