@@ -8,7 +8,8 @@ featured: false
 order: 4
 tags: [CTF, Penetration testing, TryHackMe]
 estimatedTotal: 8        # series only — drives the progress bar %
-logs:
+logs: 
+ - brute-it-tryhackme-ctf
 
 
 ---
