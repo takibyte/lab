@@ -149,6 +149,7 @@ function renderThemeSelectMobile() {
 // Reset before parsing each log so heading ids/slugs never leak across posts.
 let currentHeadings = [];
 let headingSlugCounts = {};
+let spoilerDepth = 0; // >0 while rendering inside a spoiler body
 
 marked.use({
   renderer: {
@@ -178,7 +179,7 @@ marked.use({
 
       // Only H2/H3 get anchors + collected into the TOC — H1 doesn't occur in
       // log bodies (that's the page title) and H4+ would be too granular.
-      if (level !== 2 && level !== 3) {
+      if (spoilerDepth > 0 || (level !== 2 && level !== 3)) {
         return `<h${level}>${html}</h${level}>\n`;
       }
 
@@ -221,6 +222,68 @@ const calloutExtension = {
 };
 
 marked.use({ extensions: [calloutExtension] });
+
+// Block spoiler: `:::spoiler Optional title` ... `:::`
+// Body is lexed as real markdown (code blocks, lists, images all work).
+const spoilerExtension = {
+  name: 'spoiler',
+  level: 'block',
+  start(src) {
+    return src.match(/^:::[ \t]*spoiler/m)?.index;
+  },
+  tokenizer(src) {
+    const match = /^:::[ \t]*spoiler[ \t]*([^\n]*)\n([\s\S]*?)\n:::[ \t]*(?:\n|$)/.exec(src);
+    if (!match) return;
+
+    const token = {
+      type: 'spoiler',
+      raw: match[0],
+      title: match[1].trim() || 'Spoiler',
+      text: match[2],
+      tokens: []
+    };
+    this.lexer.blockTokens(token.text, token.tokens);
+    return token;
+  },
+  renderer(token) {
+    const title = token.title
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    spoilerDepth++;
+    const inner = this.parser.parse(token.tokens);
+    spoilerDepth--;
+    return `
+<details class="spoiler">
+  <summary class="mono">${title}</summary>
+  <div class="spoiler-body">${inner}</div>
+</details>\n`;
+  }
+};
+
+// Inline spoiler: `||hidden text||`
+const inlineSpoilerExtension = {
+  name: 'inlineSpoiler',
+  level: 'inline',
+  start(src) {
+    return src.indexOf('||');
+  },
+  tokenizer(src) {
+    const match = /^\|\|(?!\s)([^|\n]+?)(?<!\s)\|\|/.exec(src);
+    if (!match) return;
+    return {
+      type: 'inlineSpoiler',
+      raw: match[0],
+      text: match[1],
+      tokens: this.lexer.inlineTokens(match[1])
+    };
+  },
+  renderer(token) {
+    return `<span class="spoiler-inline" tabindex="0" role="button" aria-expanded="false">${this.parser.parseInline(token.tokens)}</span>`;
+  }
+};
+
+marked.use({ extensions: [spoilerExtension, inlineSpoilerExtension] });
 
 /* ============================================================================
    4. RENDER FUNCTIONS — LOGS
@@ -527,7 +590,7 @@ function renderFeaturedProject(p) {
     <a class="project-card compact" href="/projects/${p.slug}/">
       <div class="top-row">
         <div class="project-icon icon-${p.icon.color}">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${p.icon.path}</svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${p.icon.path}</svg>
         </div>
         <span class="badge type-${p.type}">${p.type}</span>
       </div>

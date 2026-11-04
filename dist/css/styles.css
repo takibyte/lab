@@ -666,7 +666,7 @@ footer a:hover{color:var(--accent-1);text-decoration:underline;text-underline-of
 }
 
 /* ---------- Projects -------------------------------------------------------- */
-.status-filter{display:flex;gap:8px;margin-bottom:36px;}
+.status-filter{display:flex;gap:8px;margin-bottom:30px;}
 
 .project-grid{
   display:grid;
@@ -1048,6 +1048,63 @@ article.body img{
 .callout p{font-size:15px;line-height:1.65;color:var(--ink);margin:0;}
 .callout.warn{border-left-color:var(--caution);}
 .callout.warn .icon{color:var(--caution);}
+
+/* ---- spoilers ---- */
+
+/* Block spoiler (<details>) */
+.spoiler{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent-2);
+  border-radius:6px;
+  margin:8px 0 32px;
+  transition:border-color .15s;
+}
+.spoiler:hover{border-color:var(--line-hover);border-left-color:var(--accent-2);}
+.spoiler summary{
+  cursor:pointer;
+  list-style:none;
+  display:flex;align-items:center;gap:10px;
+  padding:14px 18px;
+  font-size:13px;color:var(--muted);
+  user-select:none;
+}
+.spoiler summary::-webkit-details-marker{display:none;}
+.spoiler summary::before{
+  content:"";
+  width:6px;height:6px;
+  border-right:1.5px solid currentColor;
+  border-bottom:1.5px solid currentColor;
+  transform:rotate(-45deg);
+  transition:transform .2s ease;
+  flex-shrink:0;
+}
+.spoiler summary:hover{color:var(--ink);}
+.spoiler[open] summary{color:var(--accent-2);border-bottom:1px solid var(--line);}
+.spoiler[open] summary::before{transform:rotate(45deg);}
+.spoiler-body{padding:20px 20px 4px;font-size:16px;}
+.spoiler-body > :last-child{margin-bottom:20px;}
+.spoiler-body .code-block{background:var(--bg);}
+
+/* Inline spoiler */
+.spoiler-inline{
+  background:var(--ink-soft);
+  color:transparent;
+  border-radius:3px;
+  padding:0 0.25em;
+  cursor:pointer;
+  transition:background .15s;
+}
+.spoiler-inline > *{visibility:hidden;pointer-events:none;}
+.spoiler-inline:hover{background:var(--ink);}
+.spoiler-inline:focus-visible{outline:2px solid var(--accent-1);outline-offset:2px;}
+.spoiler-inline.revealed{
+  background:color-mix(in srgb, var(--accent-2) 14%, transparent);
+  color:inherit;
+  cursor:text;
+}
+.spoiler-inline.revealed > *{visibility:visible;pointer-events:auto;}
+
 
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line);}
 

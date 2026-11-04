@@ -118,6 +118,42 @@
 </div>
 
 
+    <details class="toc-mobile">
+      <summary><span class="toc-summary-label"><span class="toc-summary-prefix">// TB-2026-0011</span><span class="toc-current mono">#<span id="toc-current-text"></span></span></span></summary>
+      <nav class="toc-nav">
+        <a href="#" class="toc-mobile-title toc-top-link">Brute It - TryHackMe CTF ↑</a>
+        <button type="button" class="toc-expand-all mono">expand all</button>
+        
+      <div class="toc-h2-row">
+        <a href="#introduction" class="toc-link toc-level-2" data-target="introduction">Introduction</a></div>
+      <div class="toc-group-wrap"><div class="toc-h2-row">
+        <a href="#reconnaissance" class="toc-link toc-level-2" data-target="reconnaissance">Reconnaissance</a>
+        <button type="button" class="toc-group-toggle" data-group="reconnaissance" aria-expanded="false" aria-label="Toggle subsections">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button></div><div class="toc-group" data-group-id="reconnaissance"><div class="toc-group-inner">
+      <a href="#how-many-ports-are-open" class="toc-link toc-level-3" data-target="how-many-ports-are-open">How many ports are open?</a>
+      <a href="#what-version-of-ssh-is-running" class="toc-link toc-level-3" data-target="what-version-of-ssh-is-running">What version of SSH is running?</a>
+      <a href="#what-version-of-apache-is-running" class="toc-link toc-level-3" data-target="what-version-of-apache-is-running">What version of Apache is running?</a>
+      <a href="#which-linux-distribution-is-running" class="toc-link toc-level-3" data-target="which-linux-distribution-is-running">Which Linux distribution is running?</a>
+      <a href="#what-is-the-hidden-directory" class="toc-link toc-level-3" data-target="what-is-the-hidden-directory">What is the hidden directory?</a></div></div></div>
+      <div class="toc-group-wrap"><div class="toc-h2-row">
+        <a href="#getting-a-shell" class="toc-link toc-level-2" data-target="getting-a-shell">Getting a shell</a>
+        <button type="button" class="toc-group-toggle" data-group="getting-a-shell" aria-expanded="false" aria-label="Toggle subsections">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button></div><div class="toc-group" data-group-id="getting-a-shell"><div class="toc-group-inner">
+      <a href="#what-is-the-userpassword-of-the-admin-panel" class="toc-link toc-level-3" data-target="what-is-the-userpassword-of-the-admin-panel">What is the user:password of the admin panel?</a>
+      <a href="#what-is-johns-rsa-private-key-passphrase" class="toc-link toc-level-3" data-target="what-is-johns-rsa-private-key-passphrase">What is John's RSA Private Key passphrase?</a>
+      <a href="#usertxt" class="toc-link toc-level-3" data-target="usertxt">user.txt</a>
+      <a href="#web-flag" class="toc-link toc-level-3" data-target="web-flag">Web flag</a></div></div></div>
+      <div class="toc-group-wrap"><div class="toc-h2-row">
+        <a href="#privilege-escalation" class="toc-link toc-level-2" data-target="privilege-escalation">Privilege escalation</a>
+        <button type="button" class="toc-group-toggle" data-group="privilege-escalation" aria-expanded="false" aria-label="Toggle subsections">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button></div><div class="toc-group" data-group-id="privilege-escalation"><div class="toc-group-inner">
+      <a href="#what-is-the-roots-password" class="toc-link toc-level-3" data-target="what-is-the-roots-password">What is the root's password?</a>
+      <a href="#roottxt" class="toc-link toc-level-3" data-target="roottxt">root.txt</a></div></div></div>
+      </nav>
+    </details>
 
 <div class="log-grid">
 
@@ -143,7 +179,7 @@
         <div class="meta-text">
           <div class="name"><a href="/about/">takibyte</a></div>
           <div class="sub mono">
-            <span>26 October 2026 · 1 min</span>
+            <span>30 October 2026 · 1 min</span>
             <span>TB-2026-0011</span>
           </div>
         </div>
@@ -162,7 +198,88 @@
     </div>
 
     <article class="body">
-      
+      <h2 id="introduction">Introduction</h2>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="how-many-ports-are-open">How many ports are open?</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>2 ports</code></p>
+</div>
+</details>
+<h3 id="what-version-of-ssh-is-running">What version of SSH is running?</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>OpenSSH 7.6p1</code></p>
+</div>
+</details>
+<h3 id="what-version-of-apache-is-running">What version of Apache is running?</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>2.4.29</code></p>
+</div>
+</details>
+<h3 id="which-linux-distribution-is-running">Which Linux distribution is running?</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>Ubuntu</code></p>
+</div>
+</details>
+<h3 id="what-is-the-hidden-directory">What is the hidden directory?</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>/admin</code></p>
+</div>
+</details>
+<h2 id="getting-a-shell">Getting a shell</h2>
+<h3 id="what-is-the-userpassword-of-the-admin-panel">What is the user:password of the admin panel?</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>admin:xavier</code></p>
+</div>
+</details>
+<h3 id="what-is-johns-rsa-private-key-passphrase">What is John&#39;s RSA Private Key passphrase?</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>rockinroll</code></p>
+</div>
+</details>
+<h3 id="usertxt">user.txt</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>THM{a_password_is_not_a_barrier}</code></p>
+</div>
+</details>
+<h3 id="web-flag">Web flag</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>THM{brut3_f0rce_is_e4sy}</code></p>
+</div>
+</details>
+<h2 id="privilege-escalation">Privilege escalation</h2>
+<h3 id="what-is-the-roots-password">What is the root&#39;s password?</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>football</code></p>
+</div>
+</details>
+<h3 id="roottxt">root.txt</h3>
+
+<details class="spoiler">
+  <summary class="mono">Reveal answer</summary>
+  <div class="spoiler-body"><p><code>THM{pr1v1l3g3_3sc4l4t10n}</code></p>
+</div>
+</details>
+
     </article>
 
     <div class="tags">
@@ -192,6 +309,40 @@
   </div>
 
   
+    <aside class="toc">
+      <a href="#" class="toc-label mono toc-top-link toc-title-link">// contents <span class="toc-arrow">↑</span></a>
+      <button type="button" class="toc-expand-all mono">expand all</button>
+      <nav class="toc-nav">
+      <div class="toc-h2-row">
+        <a href="#introduction" class="toc-link toc-level-2" data-target="introduction">Introduction</a></div>
+      <div class="toc-group-wrap"><div class="toc-h2-row">
+        <a href="#reconnaissance" class="toc-link toc-level-2" data-target="reconnaissance">Reconnaissance</a>
+        <button type="button" class="toc-group-toggle" data-group="reconnaissance" aria-expanded="false" aria-label="Toggle subsections">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button></div><div class="toc-group" data-group-id="reconnaissance"><div class="toc-group-inner">
+      <a href="#how-many-ports-are-open" class="toc-link toc-level-3" data-target="how-many-ports-are-open">How many ports are open?</a>
+      <a href="#what-version-of-ssh-is-running" class="toc-link toc-level-3" data-target="what-version-of-ssh-is-running">What version of SSH is running?</a>
+      <a href="#what-version-of-apache-is-running" class="toc-link toc-level-3" data-target="what-version-of-apache-is-running">What version of Apache is running?</a>
+      <a href="#which-linux-distribution-is-running" class="toc-link toc-level-3" data-target="which-linux-distribution-is-running">Which Linux distribution is running?</a>
+      <a href="#what-is-the-hidden-directory" class="toc-link toc-level-3" data-target="what-is-the-hidden-directory">What is the hidden directory?</a></div></div></div>
+      <div class="toc-group-wrap"><div class="toc-h2-row">
+        <a href="#getting-a-shell" class="toc-link toc-level-2" data-target="getting-a-shell">Getting a shell</a>
+        <button type="button" class="toc-group-toggle" data-group="getting-a-shell" aria-expanded="false" aria-label="Toggle subsections">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button></div><div class="toc-group" data-group-id="getting-a-shell"><div class="toc-group-inner">
+      <a href="#what-is-the-userpassword-of-the-admin-panel" class="toc-link toc-level-3" data-target="what-is-the-userpassword-of-the-admin-panel">What is the user:password of the admin panel?</a>
+      <a href="#what-is-johns-rsa-private-key-passphrase" class="toc-link toc-level-3" data-target="what-is-johns-rsa-private-key-passphrase">What is John's RSA Private Key passphrase?</a>
+      <a href="#usertxt" class="toc-link toc-level-3" data-target="usertxt">user.txt</a>
+      <a href="#web-flag" class="toc-link toc-level-3" data-target="web-flag">Web flag</a></div></div></div>
+      <div class="toc-group-wrap"><div class="toc-h2-row">
+        <a href="#privilege-escalation" class="toc-link toc-level-2" data-target="privilege-escalation">Privilege escalation</a>
+        <button type="button" class="toc-group-toggle" data-group="privilege-escalation" aria-expanded="false" aria-label="Toggle subsections">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button></div><div class="toc-group" data-group-id="privilege-escalation"><div class="toc-group-inner">
+      <a href="#what-is-the-roots-password" class="toc-link toc-level-3" data-target="what-is-the-roots-password">What is the root's password?</a>
+      <a href="#roottxt" class="toc-link toc-level-3" data-target="roottxt">root.txt</a></div></div></div>
+      </nav>
+    </aside>
 
 </div>
 
@@ -398,6 +549,31 @@ if (articleBody) {
       lightbox.classList.remove('open');
       document.body.style.overflow = '';
     }
+  });
+}
+
+
+// Inline spoilers: click/Enter/Space reveals. Delegated on article.body.
+if (articleBody) {
+  const toggleSpoiler = (el) => {
+    const revealed = el.classList.toggle('revealed');
+    el.setAttribute('aria-expanded', revealed);
+  };
+
+  articleBody.addEventListener('click', (e) => {
+    const el = e.target.closest('.spoiler-inline');
+    if (!el) return;
+    // Don't re-hide if the click finished a text selection (drag/double-click to copy)
+    if (el.classList.contains('revealed') && window.getSelection().toString()) return;
+    // Let links inside a revealed spoiler work without hiding it
+    if (e.target.closest('a')) return;
+    toggleSpoiler(el);
+  });
+
+  articleBody.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const el = e.target.closest('.spoiler-inline');
+    if (el) { e.preventDefault(); toggleSpoiler(el); }
   });
 }
 

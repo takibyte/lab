@@ -515,6 +515,31 @@ if (articleBody) {
   });
 }
 
+
+// Inline spoilers: click/Enter/Space reveals. Delegated on article.body.
+if (articleBody) {
+  const toggleSpoiler = (el) => {
+    const revealed = el.classList.toggle('revealed');
+    el.setAttribute('aria-expanded', revealed);
+  };
+
+  articleBody.addEventListener('click', (e) => {
+    const el = e.target.closest('.spoiler-inline');
+    if (!el) return;
+    // Don't re-hide if the click finished a text selection (drag/double-click to copy)
+    if (el.classList.contains('revealed') && window.getSelection().toString()) return;
+    // Let links inside a revealed spoiler work without hiding it
+    if (e.target.closest('a')) return;
+    toggleSpoiler(el);
+  });
+
+  articleBody.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const el = e.target.closest('.spoiler-inline');
+    if (el) { e.preventDefault(); toggleSpoiler(el); }
+  });
+}
+
 </script>
 
 </body>
