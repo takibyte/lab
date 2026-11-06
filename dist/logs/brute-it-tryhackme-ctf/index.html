@@ -179,7 +179,7 @@
         <div class="meta-text">
           <div class="name"><a href="/about/">takibyte</a></div>
           <div class="sub mono">
-            <span>30 October 2026 · 1 min</span>
+            <span>30 October 2026 · 2 min</span>
             <span>TB-2026-0011</span>
           </div>
         </div>
@@ -189,7 +189,7 @@
       </div>
     </div>
 
-    <img class="log-media" src="./images/cover.webp" alt="">
+    <img class="log-media" src="./images/8_admin_response.webp" alt="">
 
     
     <div class="series-badge">
@@ -199,83 +199,103 @@
 
     <article class="body">
       <h2 id="introduction">Introduction</h2>
+<p>The Brute It CTF found on TryHackMe <a href="https://tryhackme.com/room/bruteit">here</a>, I found to be a great beginner CTF challenge room. It is great because it covers a classic pentesting pattern: reconnaissance, initial access/getting a shell, and then privilege escalation/getting root access on the target machine. These are core steps in any cybersecurity penetration testing framework, and it was fun to go through the stages in a straightforward way.</p>
+<p>In this writeup</p>
 <h2 id="reconnaissance">Reconnaissance</h2>
+<p><img src="./images/1_ping.webp" alt="ping scan"></p>
 <h3 id="how-many-ports-are-open">How many ports are open?</h3>
-
-<details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
-  <div class="spoiler-body"><p><code>2 ports</code></p>
-</div>
-</details>
+<p><img src="./images/2_nmap.webp" alt="nmap scan"></p>
 <h3 id="what-version-of-ssh-is-running">What version of SSH is running?</h3>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>OpenSSH 7.6p1</code></p>
 </div>
 </details>
 <h3 id="what-version-of-apache-is-running">What version of Apache is running?</h3>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>2.4.29</code></p>
 </div>
 </details>
 <h3 id="which-linux-distribution-is-running">Which Linux distribution is running?</h3>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>Ubuntu</code></p>
 </div>
 </details>
 <h3 id="what-is-the-hidden-directory">What is the hidden directory?</h3>
+<p><img src="./images/3_gobuster.webp" alt="gobuster"></p>
+<p><img src="./images/4_gobuster.webp" alt="gobuster"></p>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>/admin</code></p>
 </div>
 </details>
 <h2 id="getting-a-shell">Getting a shell</h2>
 <h3 id="what-is-the-userpassword-of-the-admin-panel">What is the user:password of the admin panel?</h3>
+<p><img src="./images/5_admin_page.webp" alt="admin page"></p>
+<p><img src="./images/6_admin_source.webp" alt="gobuster"></p>
+<p><img src="./images/7_admin_request.webp" alt="gobuster"></p>
+<p><img src="./images/8_admin_response.webp" alt="gobuster"></p>
+<p><img src="./images/9_hydra.webp" alt="gobuster"></p>
+<p><img src="./images/10_hydra.webp" alt="gobuster"></p>
+<p><img src="./images/11_password_success_panel.webp" alt="gobuster"></p>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>admin:xavier</code></p>
 </div>
 </details>
 <h3 id="what-is-johns-rsa-private-key-passphrase">What is John&#39;s RSA Private Key passphrase?</h3>
+<p><img src="./images/12_rsa_private_key.webp" alt="gobuster"></p>
+<p><img src="./images/13_create_rsa_key.webp" alt="gobuster"></p>
+<p><img src="./images/14_bad_permissions.webp" alt="gobuster"></p>
+<p><img src="./images/15_chmod.webp" alt="gobuster"></p>
+<p><img src="./images/16_ssh_need_passphrase.webp" alt="gobuster"></p>
+<p><img src="./images/17_ssh2john.webp" alt="gobuster"></p>
+<p><img src="./images/18_hash_cracked.webp" alt="gobuster"></p>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>rockinroll</code></p>
 </div>
 </details>
 <h3 id="usertxt">user.txt</h3>
+<p><img src="./images/19_ssh_access.webp" alt="gobuster"></p>
+<p><img src="./images/20_user_text_flag.webp" alt="gobuster"></p>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>THM{a_password_is_not_a_barrier}</code></p>
 </div>
 </details>
 <h3 id="web-flag">Web flag</h3>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>THM{brut3_f0rce_is_e4sy}</code></p>
 </div>
 </details>
 <h2 id="privilege-escalation">Privilege escalation</h2>
 <h3 id="what-is-the-roots-password">What is the root&#39;s password?</h3>
+<p><img src="./images/21_sudo-l.webp" alt="gobuster"></p>
+<p><img src="./images/22_sudo_cat_shadow.webp" alt="gobuster"></p>
+<p><img src="./images/23_root_cracked.webp" alt="gobuster"></p>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>football</code></p>
 </div>
 </details>
 <h3 id="roottxt">root.txt</h3>
+<p><img src="./images/24_root_access.webp" alt="gobuster"></p>
 
 <details class="spoiler">
-  <summary class="mono">Reveal answer</summary>
+  <summary class="mono">Reveal spoiler</summary>
   <div class="spoiler-body"><p><code>THM{pr1v1l3g3_3sc4l4t10n}</code></p>
 </div>
 </details>

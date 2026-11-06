@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 drafts
 **/original/
+**/backup/
 .overhaul-files
 .redirects
 dist-ssr
