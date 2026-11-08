@@ -538,6 +538,42 @@ if (articleBody) {
   });
 }
 
+
+
+// Code block copy buttons. Delegated on article.body, reads the visible
+// text of the <pre> (highlight.js spans collapse to the original source).
+if (articleBody) {
+  articleBody.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.code-copy');
+    if (!btn) return;
+    const pre = btn.closest('.code-block')?.querySelector('pre');
+    if (!pre) return;
+    const text = pre.textContent;
+
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // Fallback for non-secure contexts / older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+
+    btn.classList.add('copied');
+    btn.setAttribute('aria-label', 'Copied');
+    clearTimeout(btn._resetTimer);
+    btn._resetTimer = setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.setAttribute('aria-label', 'Copy code to clipboard');
+    }, 1500);
+  });
+}
+
 </script>
 
 </body>

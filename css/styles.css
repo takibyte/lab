@@ -1030,6 +1030,26 @@ article.body img{
   color:var(--ink-soft);
 }
 
+.code-block-actions{display:flex;align-items:center;gap:14px;}
+.code-copy{
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;
+  background:none;
+  border:none;
+  border-radius:5px;
+  color:var(--muted);
+  padding:0;
+  cursor:pointer;
+  transition:color .15s, background .15s;
+}
+.code-copy:hover{color:var(--ink);background:color-mix(in srgb, var(--line) 60%, transparent);}
+.code-copy:focus-visible{outline:2px solid var(--accent-1);outline-offset:2px;}
+.code-copy .icon-check{display:none;}
+.code-copy.copied{color:var(--success);}
+.code-copy.copied .icon-copy{display:none;}
+.code-copy.copied .icon-check{display:block;}
+
+
 /* callout / note box — the "pull quote" role for a dev homelab */
 .callout{
   display:flex;gap:14px;

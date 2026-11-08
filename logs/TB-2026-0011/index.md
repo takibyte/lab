@@ -117,7 +117,7 @@ Before doing that we can also note in the source code the name values `user` and
 
 ![gobuster](./images/7_admin_request.webp)
 
-Another way of confirming these form input name values is shown in this image here. Here I've opened the browser developer tools and navigated to the network tab. Next I attempted to log in with any username and password to test the request and response to the server. This first image shows the information from the resulting http POST request (as found in the request tab of this particular POST request).
+Another way of confirming these form input name values is shown in this image here. Here I've opened the browser developer tools and navigated to the network tab. Next I attempted to log in with any username and password to test the request to and response of the server. This first image shows the information from the resulting http POST request (as found in the request tab of this particular POST request).
 
 The form data shows:
 
@@ -136,6 +136,10 @@ Hydra needs these values in order to know how to make legitimate requests to the
 This image shows the response tab from the same test request I made. Here I've toggled the raw html code, and we can see the actual html response body that was received back to the client/browser.
 
 Here there is another important piece of information we'll need for the Hydra command, 
+
+```
+hydra -l admin -P /usr/share/wordlists/rockyou.txt 10.146.186.112 http-post-form "/admin/:user=^USER^&pass=^PASS^:F=Username or password invalid" -t 32 -f -V
+```
 
 
 ![gobuster](./images/9_hydra.webp)

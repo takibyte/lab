@@ -205,7 +205,10 @@
 <div class="code-block">
   <div class="code-block-head">
     <span>target_ip.txt</span>
-    <div class="code-block-dots"><span></span><span></span><span></span></div>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
   </div>
   <pre><span class="hljs-number">10.146.186.112</span></pre>
 </div><p>First thing to do is to make sure the VPN connection is working, and that I can actually connect to the target machine, therefore we&#39;ll do a quick ping scan as shown here.</p>
@@ -220,7 +223,10 @@
 <div class="code-block">
   <div class="code-block-head">
     <span>terminal</span>
-    <div class="code-block-dots"><span></span><span></span><span></span></div>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
   </div>
   <pre><span class="hljs-attribute">sudo</span> nmap -sS -sV <span class="hljs-number">10.146.186.112</span></pre>
 </div><p>Using the command above to scan the target we get the following results as shown in the below.</p>
@@ -253,7 +259,10 @@
 <div class="code-block">
   <div class="code-block-head">
     <span>terminal</span>
-    <div class="code-block-dots"><span></span><span></span><span></span></div>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
   </div>
   <pre>gobuster dir -u http:<span class="hljs-regexp">//</span><span class="hljs-number">10.146</span>.<span class="hljs-number">186.112</span> -w <span class="hljs-regexp">/usr/</span>share<span class="hljs-regexp">/wordlists/</span>dirb/common.txt</pre>
 </div><p><img src="./images/3_gobuster.webp" alt="gobuster"></p>
@@ -276,13 +285,16 @@
 <p>So from this we have half of the login info, the username is <code>admin</code>. Having this will actually allow us to attempt to brute-force the password using a tool like Hydra.</p>
 <p>Before doing that we can also note in the source code the name values <code>user</code> and <code>pass</code> of the input tags in the form. These values will be needed for our Hydra command to brute-force the password.</p>
 <p><img src="./images/7_admin_request.webp" alt="gobuster"></p>
-<p>Another way of confirming these form input name values is shown in this image here. Here I&#39;ve opened the browser developer tools and navigated to the network tab. Next I attempted to log in with any username and password to test the request and response to the server. This first image shows the information from the resulting http POST request (as found in the request tab of this particular POST request).</p>
+<p>Another way of confirming these form input name values is shown in this image here. Here I&#39;ve opened the browser developer tools and navigated to the network tab. Next I attempted to log in with any username and password to test the request to and response of the server. This first image shows the information from the resulting http POST request (as found in the request tab of this particular POST request).</p>
 <p>The form data shows:</p>
 
 <div class="code-block">
   <div class="code-block-head">
     <span>form_data.txt</span>
-    <div class="code-block-dots"><span></span><span></span><span></span></div>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
   </div>
   <pre><span class="hljs-symbol">user:</span> <span class="hljs-comment">&#x27;admin&#x27;</span>
 <span class="hljs-symbol">pass:</span> <span class="hljs-comment">&#x27;password&#x27;</span></pre>
@@ -291,7 +303,17 @@
 <p><img src="./images/8_admin_response.webp" alt="gobuster"></p>
 <p>This image shows the response tab from the same test request I made. Here I&#39;ve toggled the raw html code, and we can see the actual html response body that was received back to the client/browser.</p>
 <p>Here there is another important piece of information we&#39;ll need for the Hydra command, </p>
-<p><img src="./images/9_hydra.webp" alt="gobuster"></p>
+
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre><span class="hljs-attribute">hydra</span> -l admin -P /usr/share/wordlists/rockyou.txt <span class="hljs-number">10.146.186.112</span> http-post-form <span class="hljs-string">&quot;/admin/:user=^USER^&amp;pass=^PASS^:F=Username or password invalid&quot;</span> -t <span class="hljs-number">32</span> -f -V</pre>
+</div><p><img src="./images/9_hydra.webp" alt="gobuster"></p>
 <p><img src="./images/10_hydra.webp" alt="gobuster"></p>
 <p><img src="./images/11_password_success_panel.webp" alt="gobuster"></p>
 
@@ -644,6 +666,42 @@ if (articleBody) {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     const el = e.target.closest('.spoiler-inline');
     if (el) { e.preventDefault(); toggleSpoiler(el); }
+  });
+}
+
+
+
+// Code block copy buttons. Delegated on article.body, reads the visible
+// text of the <pre> (highlight.js spans collapse to the original source).
+if (articleBody) {
+  articleBody.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.code-copy');
+    if (!btn) return;
+    const pre = btn.closest('.code-block')?.querySelector('pre');
+    if (!pre) return;
+    const text = pre.textContent;
+
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // Fallback for non-secure contexts / older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+
+    btn.classList.add('copied');
+    btn.setAttribute('aria-label', 'Copied');
+    clearTimeout(btn._resetTimer);
+    btn._resetTimer = setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.setAttribute('aria-label', 'Copy code to clipboard');
+    }, 1500);
   });
 }
 
