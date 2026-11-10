@@ -2,7 +2,7 @@
 title: Nmap scan analysis with Wireshark
 dek: Part 2 of capturing and analysing Nmap -sT and -sS port scans with Wireshark.
 author: takibyte
-date: 2026-09-02
+date: 2026-09-16
 category: homelab
 tags: [Wireshark, Nmap, Packet capture, Network protocols]
 cover: cover.webp

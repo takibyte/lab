@@ -1,11 +1,12 @@
 ---
-title: pscan — Multi-threaded port scanner
+title: "pscan - multi-threaded port scanner"
+slug: pscan-multi-threaded-port-scanner
 description: Building a network port scanner from scratch with Python. From implementing the core socket module, to learning about locking threads.
 type: tool              # tool | series
 status: complete           # active | complete | paused
 icon: scanner             # key into a small icon lookup table
 featured: true
-order: 2
+order: 3
 tags: [Python, Sockets, CLI]
 github: https://github.com/takibyte/pscan   # tool only
 roadmap:                                          # tool only, omit for series

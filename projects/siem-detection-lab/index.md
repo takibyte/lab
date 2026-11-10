@@ -5,7 +5,7 @@ type: series
 status: active
 icon: shield
 featured: false
-order: 4
+order: 5
 tags: [SIEM, Detection, Splunk, SOC]
 estimatedTotal: 8        # series only — drives the progress bar %
 logs:

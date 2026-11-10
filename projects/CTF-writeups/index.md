@@ -5,11 +5,11 @@ type: series
 status: active
 icon: ctf
 featured: false
-order: 4
+order: 1
 tags: [CTF, Penetration testing, TryHackMe]
 estimatedTotal: 8        # series only — drives the progress bar %
 logs: 
- - brute-it-tryhackme-ctf
+ - brute-it
 
 
 ---

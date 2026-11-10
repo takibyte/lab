@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Brute It - TryHackMe CTF | takibyte</title>
+<title>Brute It: TryHackMe Writeup | takibyte</title>
 <meta name="description" content="A beginner TryHackMe CTF on reconnaissance, brute forcing, hash cracking and privilege escalation.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -121,7 +121,7 @@
     <details class="toc-mobile">
       <summary><span class="toc-summary-label"><span class="toc-summary-prefix">// TB-2026-0011</span><span class="toc-current mono">#<span id="toc-current-text"></span></span></span></summary>
       <nav class="toc-nav">
-        <a href="#" class="toc-mobile-title toc-top-link">Brute It - TryHackMe CTF ↑</a>
+        <a href="#" class="toc-mobile-title toc-top-link">Brute It: TryHackMe Writeup ↑</a>
         <button type="button" class="toc-expand-all mono">expand all</button>
         
       <div class="toc-h2-row">
@@ -169,17 +169,17 @@
   <div class="wrap">
     <div class="log-header page-header-spacing">
       <div class="breadcrumb">
-        <a href="/">lab.takibyte.com</a><span class="sep">/</span><a href="/logs/">logs</a><span class="sep">/</span><span aria-current="page">brute-it-tryhackme-ctf</span>
+        <a href="/">lab.takibyte.com</a><span class="sep">/</span><a href="/logs/">logs</a><span class="sep">/</span><span aria-current="page">brute-it</span>
       </div>
       <div class="log-cat cat-homelab mono cat-ctf">CTF</div>
-      <h1 class="headline">Brute It - TryHackMe CTF</h1>
+      <h1 class="headline">Brute It: TryHackMe Writeup</h1>
       <p class="dek">A beginner TryHackMe CTF on reconnaissance, brute forcing, hash cracking and privilege escalation.</p>
       <div class="meta-row">
         <a href="/about/"><div class="author-avatar"></div></a>
         <div class="meta-text">
           <div class="name"><a href="/about/">takibyte</a></div>
           <div class="sub mono">
-            <span>30 October 2026 · 7 min</span>
+            <span>5 November 2026 · 18 min</span>
             <span>TB-2026-0011</span>
           </div>
         </div>
@@ -199,8 +199,8 @@
 
     <article class="body">
       <h2 id="introduction">Introduction</h2>
-<p>The Brute It CTF found on TryHackMe <a href="https://tryhackme.com/room/bruteit">here</a>, I found to be a great beginner CTF challenge room. It is nice because it covers a classic basic pentesting pattern: reconnaissance, initial access/getting a shell, and then privilege escalation/getting root access on the target machine. These are core steps in any cybersecurity penetration testing framework, and it was fun to go through the stages in a straightforward way.</p>
-<p>To complete this CTF I connected my Kali Linux VM to the TryHackMe network via VPN, and started the target machine. When the target machine instance became available, an IP address for target machine appeared. The target machine I received was <code>10.146.186.112</code>, this will be the IP all scans and tests will be directed towards.</p>
+<p>I found the <a href="https://tryhackme.com/room/bruteit">Brute It</a> CTF on TryHackMe to be a great beginner CTF. It covers a basic and classic pentesting pattern: reconnaissance, initial access/getting a shell, and then privilege escalation/getting root access on the target machine. These are core steps in any cybersecurity penetration testing framework, and it was fun to go through the stages in a straightforward way.</p>
+<p>To complete this CTF I connected my Kali Linux VM to the TryHackMe network via VPN, and started the target machine. When the target machine instance became available, an IP address for the target machine appeared. The target machine I received was <code>10.146.186.112</code>, this will be the IP address all scans and tests will be directed towards.</p>
 
 <div class="code-block">
   <div class="code-block-head">
@@ -213,12 +213,12 @@
   <pre><span class="hljs-number">10.146.186.112</span></pre>
 </div><p>First thing to do is to make sure the VPN connection is working, and that I can actually connect to the target machine, therefore we&#39;ll do a quick ping scan as shown here.</p>
 <p><img src="./images/1_ping.webp" alt="ping scan"></p>
-<p>Now I&#39;ll be going through the questions for this CTF from start to finish.</p>
+<p>Inspecting the ping output, we can see my machine is successfully reaching the target machine. Now I&#39;ll be going through the questions for this CTF from start to finish.</p>
 <h2 id="reconnaissance">Reconnaissance</h2>
-<p> First we can start with some reconnaissance, the process of scouting and mapping out the network attack surface - looking for any open ports and services, or anything else.</p>
+<p>To begin we can start with some reconnaissance, the process of scouting and mapping out the network attack surface - looking for any open ports and services, or anything else.</p>
 <h3 id="how-many-ports-are-open">How many ports are open?</h3>
 <p>The first question asks how many ports are open. To test this we&#39;ll use Nmap, an industry standard network mapping and scanning tool.</p>
-<p>Scanning for open ports is simple, we&#39;ll use the following command to do a stealth/half-open scan using <code>-sS</code> including the version information flag <code>-sV</code>, which will give extra intel required for the next three questions. The whole command is:</p>
+<p>Scanning for open ports is simple, we&#39;ll use the following command to do a stealth/half-open scan using <code>-sS</code>, this will make less noise than a regular TCP connect scan (using <code>-sT</code>). We will include the version information flag <code>-sV</code>, which will give extra information for the services of any open ports that are found, this will also be necessary to answer the next few questions. The whole command is:</p>
 
 <div class="code-block">
   <div class="code-block-head">
@@ -229,11 +229,11 @@
       </button>
   </div>
   <pre><span class="hljs-attribute">sudo</span> nmap -sS -sV <span class="hljs-number">10.146.186.112</span></pre>
-</div><p>Using the command above to scan the target we get the following results as shown in the below.</p>
+</div><p>Using the command above to scan the target we get the following output as shown in the image below.</p>
 <p><img src="./images/2_nmap.webp" alt="nmap scan"></p>
 <p>We can clearly see there are <span class="spoiler-inline" tabindex="0" role="button" aria-expanded="false">2</span> ports open, tcp port 22 and tcp port 80.</p>
 <h3 id="what-version-of-ssh-is-running">What version of SSH is running?</h3>
-<p>Since we already ran the scan with version detection, we can look for the open port 22 line where we can notice the service is ssh (as expected), and that the version of ssh is: </p>
+<p>Since we already ran the scan with version detection we can look for the open port 22 line, where we can notice the service is ssh (as expected), and that the version of ssh is: </p>
 
 <details class="spoiler">
   <summary class="mono">Spoiler</summary>
@@ -266,8 +266,8 @@
   </div>
   <pre>gobuster dir -u http:<span class="hljs-regexp">//</span><span class="hljs-number">10.146</span>.<span class="hljs-number">186.112</span> -w <span class="hljs-regexp">/usr/</span>share<span class="hljs-regexp">/wordlists/</span>dirb/common.txt</pre>
 </div><p><img src="./images/3_gobuster.webp" alt="gobuster"></p>
-<p>Looking at the image above, we can see results from the gobuster scan, and in these results we can identify a very pertinent looking hidden directory <span class="spoiler-inline" tabindex="0" role="button" aria-expanded="false">/admin</span>.</p>
-<p>Now we have completed the reconnaissance part. We now have a couple of open ports with services to target, an http web server, and an ssh service. We have also now have discovered a hidden directory which we can target in the next phase &#39;Getting a shell&#39;.</p>
+<p>Looking at the image above, we can see results from the gobuster scan, and in these results we can identify a very pertinent looking hidden directory: <span class="spoiler-inline" tabindex="0" role="button" aria-expanded="false">/admin</span>.</p>
+<p>Now we have completed the reconnaissance part. We now have a couple of open ports with services to target, an http web server, and an ssh service. We have also now discovered a hidden directory which we can target in the next phase &#39;Getting a shell&#39;.</p>
 <h2 id="getting-a-shell">Getting a shell</h2>
 <p>In this phase of the CTF, we&#39;ll move on from reconnaissance, and now attempt to get a shell on the target machine.</p>
 <h3 id="what-is-the-userpassword-of-the-admin-panel">What is the user:password of the admin panel?</h3>
@@ -282,10 +282,10 @@
 <li>There is a person/administrator named John</li>
 <li>The username is admin</li>
 </ol>
-<p>So from this we have half of the login info, the username is <code>admin</code>. Having this will actually allow us to attempt to brute-force the password using a tool like Hydra.</p>
+<p>So from this we have half of the login info, the username is <code>admin</code>. Having this will actually allow us to attempt to brute-force/dictionary attack the password using a tool like Hydra.</p>
 <p>Before doing that we can also note in the source code the name values <code>user</code> and <code>pass</code> of the input tags in the form. These values will be needed for our Hydra command to brute-force the password.</p>
 <p><img src="./images/7_admin_request.webp" alt="gobuster"></p>
-<p>Another way of confirming these form input name values is shown in this image here. Here I&#39;ve opened the browser developer tools and navigated to the network tab. Next I attempted to log in with any username and password to test the request to and response of the server. This first image shows the information from the resulting http POST request (as found in the request tab of this particular POST request).</p>
+<p>Another way of confirming these form input name values is shown in this image here. Here I&#39;ve opened the browser developer tools and navigated to the network tab. Next I attempted to log in with any username and password to test the request to and response from the server/target machine. This first image shows the information from the resulting http POST request (as found in the request tab of this particular POST request).</p>
 <p>The form data shows:</p>
 
 <div class="code-block">
@@ -302,7 +302,14 @@
 <p>Hydra needs these values in order to know how to make legitimate requests to the server when brute-forcing the admin panel.</p>
 <p><img src="./images/8_admin_response.webp" alt="gobuster"></p>
 <p>This image shows the response tab from the same test request I made. Here I&#39;ve toggled the raw html code, and we can see the actual html response body that was received back to the client/browser.</p>
-<p>Here there is another important piece of information we&#39;ll need for the Hydra command, </p>
+<p>Here there is another important piece of information we&#39;ll need for the Hydra command: <code>Username or password invalid</code>. This is some text that is found in the html response body when there has been a failed login, Hydra needs an identifier like this to determine the failure or success of each login attempt.</p>
+<p>Now we have everything we need to attempt a dictionary attack on the login with Hydra.</p>
+
+<div class="callout">
+  <span class="icon mono">NOTE</span>
+  <p>This is a dictionary attack because it will be using a word list to draw the passwords from (if the password is not on the list it won&#39;t succeed), whereas a brute-force attack would incrementally go through many character variations in the specified pattern without a word list (this is much slower, but with enough time it could find passwords that aren&#39;t on a list).</p>
+</div>
+<p>The full command is shown here:</p>
 
 <div class="code-block">
   <div class="code-block-head">
@@ -313,64 +320,233 @@
       </button>
   </div>
   <pre><span class="hljs-attribute">hydra</span> -l admin -P /usr/share/wordlists/rockyou.txt <span class="hljs-number">10.146.186.112</span> http-post-form <span class="hljs-string">&quot;/admin/:user=^USER^&amp;pass=^PASS^:F=Username or password invalid&quot;</span> -t <span class="hljs-number">32</span> -f -V</pre>
-</div><p><img src="./images/9_hydra.webp" alt="gobuster"></p>
+</div><p>Let&#39;s break down the command: </p>
+<ul>
+<li><code>hydra</code> is the name of the tool/program</li>
+<li><code>-l</code> specifies the login/username, we&#39;re using <code>admin</code> here</li>
+<li><code>-P</code> specifies a password list file, we are using the infamous <code>rockyou.txt</code> leaked password file</li>
+<li><code>http-post-form</code> specifies the service type to be targeted, for this service type there are 3 parts separated by a colon:<ul>
+<li><code>/admin/</code> is the URL path being targeted</li>
+<li><code>user=^USER^&amp;pass=^PASS^</code> uses the <code>user</code> and <code>pass</code> form input name values being targeted (as mentioned earlier), <code>^USER^</code> and <code>^PASS^</code> are used as a placeholder/marker for the substituted values to be attempted by Hydra</li>
+<li><code>F=Username or password invalid&quot;</code> indicates text found in the failure response</li>
+</ul>
+</li>
+<li><code>-t</code> specifies the number of threads to be used (more is faster but noisier)</li>
+<li><code>-f</code> tells Hydra to stop as soon as a valid login is found</li>
+<li><code>-V</code> specifies verbose mode, giving more information as the command runs</li>
+</ul>
+<p><img src="./images/9_hydra.webp" alt="gobuster"></p>
+<p>Here we can see the command as it begins to run.</p>
 <p><img src="./images/10_hydra.webp" alt="gobuster"></p>
+<p>And here we can see the end of the output after 563 attempts, Hydra successfully did a dictionary attack on the login and found the correct password for the admin username, as shown in the screenshot above.</p>
+<p>Nice! We should now have access to the admin panel at <a href="http://10.146.186.112/admin">http://10.146.186.112/admin</a>. If we now enter in the username and password we just discovered we will successfully login and be greeted with the webpage as shown in the image below.</p>
 <p><img src="./images/11_password_success_panel.webp" alt="gobuster"></p>
-
-<details class="spoiler">
-  <summary class="mono">Reveal spoiler</summary>
-  <div class="spoiler-body"><p><code>admin:xavier</code></p>
-</div>
-</details>
+<p>On this page we can see a few things:</p>
+<ul>
+<li>Some greeting text telling John to finish building the website</li>
+<li>A link to an RSA private key</li>
+<li>A THM flag (this is an answer to one of the questions a bit further down)</li>
+</ul>
+<p>Saving the flag for later, let&#39;s click through and view the RSA key link.</p>
 <h3 id="what-is-johns-rsa-private-key-passphrase">What is John&#39;s RSA Private Key passphrase?</h3>
+<p>The next question is asking what John&#39;s private key passphrase is, well, after clicking through we can see an RSA private key which is a big find, but we do not yet have the passphrase for this private key. Below we can see a screenshot of the RSA private key.</p>
 <p><img src="./images/12_rsa_private_key.webp" alt="gobuster"></p>
+<p>Let&#39;s see what we can do with this private key. An RSA private key is a cryptographic key often used for making ssh logins more secure than using just a password, and we know that we have already found an open port that uses the ssh service at tcp port 22. Let&#39;s see what happens when we try to log in to ssh on the target machine using this private key that we have acquired.</p>
+<p>To do this we&#39;ll quickly make a private key file using the key we found, I simply created a file called <code>id_rsa</code> using nano (the CLI text editor), pasted in the key, saved the file and checked the output using <code>cat id_rsa</code>. These steps can be seen in the screenshot below.</p>
 <p><img src="./images/13_create_rsa_key.webp" alt="gobuster"></p>
+<p>Now that we have the private key in a file, we can try to log in to John&#39;s account on the target machine using his ssh login information. We can do this with the following ssh command:</p>
+
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre>ssh -<span class="hljs-selector-tag">i</span> id_rsa john<span class="hljs-keyword">@10</span>.146.186.112</pre>
+</div><ul>
+<li><code>-i</code> specifies the identity/private key file we want to use, for this we will use the <code>id_rsa</code> key file we just created</li>
+<li><code>john@10.146.186.112</code> is the login information for ssh<ul>
+<li><code>john</code> is the username I am guessing is used for John&#39;s account</li>
+<li><code>@10.146.186.112</code> specifies which machine we want to log in <code>@</code>, in this case it is going to be the target machine <code>10.146.186.112</code></li>
+</ul>
+</li>
+</ul>
 <p><img src="./images/14_bad_permissions.webp" alt="gobuster"></p>
+<p>After attempting to log in using the command and following the prompts, we see the output as seen in the image above. It is saying that the permissions of the private key file are too open, and as a protective measure it won&#39;t let us use the key file. To fix this we can change the file permissions of the key file to be more restrictive.
+I did this with the following commands:</p>
+
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre><span class="hljs-built_in">ls</span> -l
+<span class="hljs-built_in">chmod</span> -600 id_rsa
+<span class="hljs-built_in">stat</span> id_rsa</pre>
+</div><p>Below is the output of these commands.</p>
 <p><img src="./images/15_chmod.webp" alt="gobuster"></p>
-<p><img src="./images/16_ssh_need_passphrase.webp" alt="gobuster"></p>
+<p>Breaking these commands down:</p>
+<ul>
+<li>With <code>ls -l</code> I listed the files in my current directory (the directory containing the key file). The <code>-l</code> flag displays the list in the &#39;long list&#39; format, which includes more details like file permissions.
+Looking at the output, we can see the <code>id_rsa</code> file has the permissions: <code>-rw-rw-r--</code>. These permissions work out to be read and write <code>rw-</code> (6) for the Owner permissions, <code>rw-</code> (6) for the Group permissions, and read <code>r--</code> (4) for the Other permissions, 664 total. These permissions are too open for a private key file, hence why ssh rejected the using the key. We need to set stricter permissions, so only the Owner of the key can use the file.</li>
+<li><code>chmod -600 id_rsa</code>, this command <code>chmod</code> or &#39;change mode&#39;, modifies file permissions on the system. By using <code>-600</code> we can change the file permission for the file <code>id_rsa</code> to <code>600</code>. This is equivalent to <code>-rw-------</code>, so that only the Owner can read and write, the Group and Other permission areas can&#39;t do anything.</li>
+<li>To test that the permissions have correctly changed, we can use the command <code>stat id_rsa</code>, this gives us detailed status information about the file (including permissions), and from the output we can notice that the file now has the new permission number of <code>600</code></li>
+</ul>
+
+<div class="callout">
+  <span class="icon mono">NOTE</span>
+  <p>On Linux and Unix-based OS&#39;s file permissions use the format of <code>-/drwxrwxrwx</code>, <code>-</code> or <code>d</code> is used for either a normal file or directory (there are other types), and <code>rwx</code> represents read, write, and execute permissions, for each of the: &#39;Owner&#39;, &#39;Group&#39;, and &#39;Other&#39; permission categories. Each permission type in <code>rwx</code> has an equivalent octal value: 4 for read, 2 for write, and 1 for execute, these are added together for each permission category to give an overall permission value.</p>
+</div>
+<p>Now that we have an RSA private key file with stricter permissions we can attempt to use it to log in to John&#39;s account again with that same command as before.</p>
+
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre>ssh -<span class="hljs-selector-tag">i</span> id_rsa john<span class="hljs-keyword">@10</span>.146.186.112</pre>
+</div><p><img src="./images/16_ssh_need_passphrase.webp" alt="gobuster"></p>
+<p>Looking at the output from the login command in the screenshot above, we can see we&#39;ve made some progress, the private key has been accepted, but it now asks us for a passphrase.</p>
+<p>Fortunately there is also a way to brute-force or do a dictionary attack on this passphrase. Ironically, we can use a hash cracking tool called <code>John</code> (short for John the Ripper), to convert our private key into a hash, and then to crack that hash.</p>
+<p>To do this conversion we can use <code>ssh2john</code>, a tool complimentary to <code>john</code> (and part of its password cracking suite), which will extract the encrypted passphrase from the key, and convert it into a hash format that <code>john</code> can use.</p>
+<p>Here is the command for that conversion:</p>
+
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre>ssh2john id_rsa &gt; rs<span class="hljs-built_in">a_hash</span></pre>
+</div><p>This command simply uses <code>ssh2john</code> on our <code>id_rsa</code> key file, and then redirects that (with <code>&gt;</code>) into a new file called <code>rsa_hash</code>.</p>
 <p><img src="./images/17_ssh2john.webp" alt="gobuster"></p>
+<p>Now that we have a hash of the passphrase from the private key, we can use John the Ripper to do the dictionary attack with the command below.</p>
+
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre>john <span class="hljs-attribute">--wordlist</span>=/usr/share/wordlists/rockyou.txt <span class="hljs-attribute">--format</span>=ssh rsa_hash</pre>
+</div><p>Breaking down the command:</p>
+<ul>
+<li><code>john</code> uses the main John the Ripper password cracking program</li>
+<li><code>--wordlist=/usr/share/wordlists/rockyou.txt</code>, this part uses the flag <code>--wordlist=</code> to denote the path to the word list file used for the dictionary attack. We are using the exact same <code>rockyou.txt</code> file we used in the Hydra command.</li>
+<li><code>--format=ssh</code>, this is optional as John the Ripper should auto-detect the correct format, but you can explicitly set it for accuracy.</li>
+<li><code>rsa_hash</code> is the file we just created containing the hash to be cracked.</li>
+</ul>
 <p><img src="./images/18_hash_cracked.webp" alt="gobuster"></p>
-
-<details class="spoiler">
-  <summary class="mono">Reveal spoiler</summary>
-  <div class="spoiler-body"><p><code>rockinroll</code></p>
-</div>
-</details>
+<p>The result from the command can be seen in the screenshot above, and we can see that we have successfully cracked the hash and acquired the passphrase for the private key.</p>
+<p>Now we should be able to attain access to John&#39;s account via the ssh login, let&#39;s try this.</p>
 <h3 id="usertxt">user.txt</h3>
-<p><img src="./images/19_ssh_access.webp" alt="gobuster"></p>
+<p>Using the same command as we&#39;ve used before, we&#39;ll use an ssh login command specifying the RSA private key, the username of <code>john</code>, and the address of our target machine <code>10.146.186.112</code>.</p>
+
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre>ssh -<span class="hljs-selector-tag">i</span> id_rsa john<span class="hljs-keyword">@10</span>.146.186.112</pre>
+</div><p><img src="./images/19_ssh_access.webp" alt="gobuster"></p>
+<p>Excellent, as we can see, after providing our newly acquired passphrase from the last step, we now have successfully logged in to John&#39;s account on the target machine and gotten a shell!</p>
+<p>Now that we are in the account, naturally we&#39;ll want to look around. Also, the next question is simply &#39;user.txt&#39;, so we&#39;ll want to look for that file and read it.</p>
+<p>Using <code>ls</code> we can list the files in our current directory.</p>
 <p><img src="./images/20_user_text_flag.webp" alt="gobuster"></p>
-
-<details class="spoiler">
-  <summary class="mono">Reveal spoiler</summary>
-  <div class="spoiler-body"><p><code>THM{a_password_is_not_a_barrier}</code></p>
-</div>
-</details>
+<p>As seen in the image here, conveniently the current directory has the exact file we are after: <code>user.txt</code>. We can use <code>cat user.txt</code> to output the contents of the file to the shell.</p>
+<p>The contents of user.txt is a THM flag, this is the answer to our question.</p>
 <h3 id="web-flag">Web flag</h3>
-
-<details class="spoiler">
-  <summary class="mono">Reveal spoiler</summary>
-  <div class="spoiler-body"><p><code>THM{brut3_f0rce_is_e4sy}</code></p>
-</div>
-</details>
+<p>The answer to this question, the &#39;web flag&#39;, we actually found on the admin panel earlier in the writeup right after we logged in.</p>
+<p>You can go back to the end of the section/question: &#39;What is the user:password of the admin panel?&#39;, to find the part where we found this.</p>
 <h2 id="privilege-escalation">Privilege escalation</h2>
+<p>The final part of this CTF is the privilege escalation section. We have a shell, and access to John&#39;s user account on the target machine via ssh. Now to get root access and get the final flag, we&#39;ll need to find a way to get root access.</p>
 <h3 id="what-is-the-roots-password">What is the root&#39;s password?</h3>
-<p><img src="./images/21_sudo-l.webp" alt="gobuster"></p>
-<p><img src="./images/22_sudo_cat_shadow.webp" alt="gobuster"></p>
-<p><img src="./images/23_root_cracked.webp" alt="gobuster"></p>
+<p>We need to find a way to get root&#39;s password for this question, if we can get that we can log in to root and own the machine. From there we can easily find the flag.</p>
+<p>A good way to start searching for ways to elevate privileges is to check if we have any elevated privileges at all already, if we have any we might be able to leverage them to gain more.</p>
+<p>We can use <code>sudo -l</code> to list any sudo/root privileges we might have on John&#39;s account.</p>
 
-<details class="spoiler">
-  <summary class="mono">Reveal spoiler</summary>
-  <div class="spoiler-body"><p><code>football</code></p>
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre><span class="hljs-built_in">sudo</span> -l</pre>
+</div><p><img src="./images/21_sudo-l.webp" alt="gobuster"></p>
+<p>Looking at the output of this command, fortunately we can see we have something. It says John has root permissions to run the <code>/bin/cat</code> binary without a password. This is the same <code>cat</code> command we use to read (concatenate) files and output them to the shell. This is a vulnerability we can exploit, it means we can use <code>cat</code> to read any file on the system that would otherwise need root permissions to interact with. </p>
+<p>One of the highest value targets for us right now is getting root&#39;s password. On many Linux distributions (and on the Ubuntu distro we are on), passwords are stored in a file called <code>shadow</code> at the path: <code>/etc/shadow</code>.</p>
+
+<div class="callout">
+  <span class="icon mono">NOTE</span>
+  <p>A common way to start finding ways to escalate privileges on Unix-like systems, is to check <a href="https://gtfobins.org/">GTFOBins</a>, it has a searchable library of built-in functions that can be exploited to elevate privileges.</p>
 </div>
-</details>
+<p>Let&#39;s use out new-found ability, using <code>cat</code> as root to read the <code>/etc/shadow</code> passwords file with the following command.</p>
+
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">cat</span> /etc/shadow</pre>
+</div><p><img src="./images/22_sudo_cat_shadow.webp" alt="gobuster"></p>
+<p>It worked! Great, so now we can see all the passwords for the system found in the shadow file, including root&#39;s password. </p>
+<p>However, these passwords are stored in a hash format, so we can&#39;t simply use them to log in like normal. Again, we will use John the Ripper just like before to crack the hash and get the password in plaintext form.</p>
+<p>In the following command I use <code>echo</code> to print root&#39;s password hash, and redirect it into a new file called <code>root_hash</code> with <code>&gt;</code>. Then I used essentially the same <code>john</code> command as before on this new <code>root_hash</code> file, with the <code>rockyou.txt</code> word list.</p>
+
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre><span class="hljs-attribute">echo</span> &#x27;root:$<span class="hljs-number">6</span>$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47L0Ag/OpZvJ1gKbLF8PJBdKJA
+<span class="hljs-attribute">4</span>а<span class="hljs-number">6</span>М.JYPUTAaWu4infDjI889yUXEVgL.:<span class="hljs-number">18490</span>:<span class="hljs-number">0</span>:<span class="hljs-number">99999</span>:<span class="hljs-number">7</span>:::&#x27; &gt; root_hash
+
+<span class="hljs-attribute">john</span> --wordlist=/usr/share/wordlists/rockyou.txt root_hash</pre>
+</div><p><img src="./images/23_root_cracked.webp" alt="gobuster"></p>
+<p>Looking at the results of these two commands, we can see that it worked, we now have root&#39;s password.</p>
 <h3 id="roottxt">root.txt</h3>
-<p><img src="./images/24_root_access.webp" alt="gobuster"></p>
+<p>We are here, the final question. We have root&#39;s password, and our task is to read <code>root.txt</code>, which presumably contains the final flag.</p>
+<p>First we will want to log in as root. We can do this with <code>su root</code>, this is to switch users to the username <code>root</code>. From there we can enter the password we just found, and we are now logged in as root!</p>
+<p>Next, we need to search around for <code>root.txt</code>. The most obvious place is in the root folder, so let&#39;s change directory with <code>cd /root/</code>. Now we can list the contents of the root directory with <code>ls</code>. And our suspicions are confirmed to be true, the <code>root.txt</code> file is sitting there in the root directory. </p>
+<p>The final command will be <code>cat root</code>, and we now have out root flag!</p>
 
-<details class="spoiler">
-  <summary class="mono">Reveal spoiler</summary>
-  <div class="spoiler-body"><p><code>THM{pr1v1l3g3_3sc4l4t10n}</code></p>
-</div>
-</details>
+<div class="code-block">
+  <div class="code-block-head">
+    <span>terminal</span>
+    <button type="button" class="code-copy" aria-label="Copy code to clipboard" title="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+  </div>
+  <pre>su root
+<span class="hljs-built_in">cd</span> /root/
+<span class="hljs-built_in">ls</span>
+<span class="hljs-built_in">cat</span> root</pre>
+</div><p><img src="./images/24_root_access.webp" alt="gobuster"></p>
+<p>And with that final flag, we have now completed the Brute It CTF. Thanks for reading! I hope you&#39;ll join me for the next one.</p>
 
     </article>
 

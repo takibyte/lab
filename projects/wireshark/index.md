@@ -5,7 +5,7 @@ type: series
 status: active
 icon: wifi
 featured: true
-order: 1
+order: 2
 tags: [Wireshark, Packet capture, Network protocols]
 estimatedTotal: 4        # series only — drives the progress bar %
 logs:

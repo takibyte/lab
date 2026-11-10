@@ -5,7 +5,7 @@ type: series
 status: complete
 icon: server
 featured: true
-order: 3
+order: 4
 tags: [Raspberry Pi, DNS, DHCP]
 estimatedTotal: 2        # series only — drives the progress bar %
 logs:
