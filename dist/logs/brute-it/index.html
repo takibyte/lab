@@ -328,7 +328,7 @@
 <li><code>http-post-form</code> specifies the service type to be targeted, for this service type there are 3 parts separated by a colon:<ul>
 <li><code>/admin/</code> is the URL path being targeted</li>
 <li><code>user=^USER^&amp;pass=^PASS^</code> uses the <code>user</code> and <code>pass</code> form input name values being targeted (as mentioned earlier), <code>^USER^</code> and <code>^PASS^</code> are used as a placeholder/marker for the substituted values to be attempted by Hydra</li>
-<li><code>F=Username or password invalid&quot;</code> indicates text found in the failure response</li>
+<li><code>F=Username or password invalid</code> indicates text found in the failure response</li>
 </ul>
 </li>
 <li><code>-t</code> specifies the number of threads to be used (more is faster but noisier)</li>
@@ -386,7 +386,7 @@ I did this with the following commands:</p>
       </button>
   </div>
   <pre><span class="hljs-built_in">ls</span> -l
-<span class="hljs-built_in">chmod</span> -600 id_rsa
+<span class="hljs-built_in">chmod</span> 600 id_rsa
 <span class="hljs-built_in">stat</span> id_rsa</pre>
 </div><p>Below is the output of these commands.</p>
 <p><img src="./images/15_chmod.webp" alt="chmod"></p>
@@ -394,7 +394,7 @@ I did this with the following commands:</p>
 <ul>
 <li>With <code>ls -l</code> I listed the files in my current directory (the directory containing the key file). The <code>-l</code> flag displays the list in the &#39;long list&#39; format, which includes more details like file permissions.
 Looking at the output, we can see the <code>id_rsa</code> file has the permissions: <code>-rw-rw-r--</code>. These permissions work out to be read and write <code>rw-</code> (6) for the Owner permissions, <code>rw-</code> (6) for the Group permissions, and read <code>r--</code> (4) for the Other permissions, 664 total. These permissions are too open for a private key file, hence why ssh rejected the using the key. We need to set stricter permissions, so only the Owner of the key can use the file.</li>
-<li><code>chmod -600 id_rsa</code>, this command <code>chmod</code> or &#39;change mode&#39;, modifies file permissions on the system. By using <code>-600</code> we can change the file permission for the file <code>id_rsa</code> to <code>600</code>. This is equivalent to <code>-rw-------</code>, so that only the Owner can read and write, the Group and Other permission areas can&#39;t do anything.</li>
+<li><code>chmod -600 id_rsa</code>, this command <code>chmod</code> or &#39;change mode&#39;, modifies file permissions on the system. By using <code>600</code> we can change the file permission for the file <code>id_rsa</code> to <code>600</code>. This is equivalent to <code>-rw-------</code>, so that only the Owner can read and write, the Group and Other permission areas can&#39;t do anything.</li>
 <li>To test that the permissions have correctly changed, we can use the command <code>stat id_rsa</code>, this gives us detailed status information about the file (including permissions), and from the output we can notice that the file now has the new permission number of <code>600</code></li>
 </ul>
 
@@ -416,7 +416,7 @@ Looking at the output, we can see the <code>id_rsa</code> file has the permissio
 </div><p><img src="./images/16_ssh_need_passphrase.webp" alt="ssh needs passphrase"></p>
 <p>Looking at the output from the login command in the screenshot above, we can see we&#39;ve made some progress, the private key has been accepted, but it now asks us for a passphrase.</p>
 <p>Fortunately there is also a way to brute-force or do a dictionary attack on this passphrase. Ironically, we can use a hash cracking tool called <code>John</code> (short for John the Ripper), to convert our private key into a hash, and then to crack that hash.</p>
-<p>To do this conversion we can use <code>ssh2john</code>, a tool complimentary to <code>john</code> (and part of its password cracking suite), which will extract the encrypted passphrase from the key, and convert it into a hash format that <code>john</code> can use.</p>
+<p>To do this conversion we can use <code>ssh2john</code>, a tool complementary to <code>john</code> (and part of its password cracking suite), which will extract the encrypted passphrase from the key, and convert it into a hash format that <code>john</code> can use.</p>
 <p>Here is the command for that conversion:</p>
 
 <div class="code-block">
@@ -497,7 +497,7 @@ Looking at the output, we can see the <code>id_rsa</code> file has the permissio
   <span class="icon mono">NOTE</span>
   <p>A common way to start finding ways to escalate privileges on Unix-like systems, is to check <a href="https://gtfobins.org/">GTFOBins</a>, it has a searchable library of built-in functions that can be exploited to elevate privileges.</p>
 </div>
-<p>Let&#39;s use out new-found ability, using <code>cat</code> as root to read the <code>/etc/shadow</code> passwords file with the following command.</p>
+<p>Let&#39;s use our new-found ability, using <code>cat</code> as root to read the <code>/etc/shadow</code> passwords file with the following command.</p>
 
 <div class="code-block">
   <div class="code-block-head">
@@ -521,8 +521,7 @@ Looking at the output, we can see the <code>id_rsa</code> file has the permissio
         <svg class="icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </button>
   </div>
-  <pre><span class="hljs-attribute">echo</span> &#x27;root:$<span class="hljs-number">6</span>$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47L0Ag/OpZvJ1gKbLF8PJBdKJA
-<span class="hljs-attribute">4</span>а<span class="hljs-number">6</span>М.JYPUTAaWu4infDjI889yUXEVgL.:<span class="hljs-number">18490</span>:<span class="hljs-number">0</span>:<span class="hljs-number">99999</span>:<span class="hljs-number">7</span>:::&#x27; &gt; root_hash
+  <pre><span class="hljs-attribute">echo</span> &#x27;root:$<span class="hljs-number">6</span>$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ1gKbLF8PJBdKJA4a6M.JYPUTAaWu4infDjI88U9yUXEVgL.:<span class="hljs-number">18490</span>:<span class="hljs-number">0</span>:<span class="hljs-number">99999</span>:<span class="hljs-number">7</span>:::&#x27; &gt; root_hash
 
 <span class="hljs-attribute">john</span> --wordlist=/usr/share/wordlists/rockyou.txt root_hash</pre>
 </div><p><img src="./images/23_root_cracked.webp" alt="root cracked"></p>
@@ -531,7 +530,7 @@ Looking at the output, we can see the <code>id_rsa</code> file has the permissio
 <p>We are here, the final question. We have root&#39;s password, and our task is to read <code>root.txt</code>, which presumably contains the final flag.</p>
 <p>First we will want to log in as root. We can do this with <code>su root</code>, this is to switch users to the username <code>root</code>. From there we can enter the password we just found, and we are now logged in as root!</p>
 <p>Next, we need to search around for <code>root.txt</code>. The most obvious place is in the root folder, so let&#39;s change directory with <code>cd /root/</code>. Now we can list the contents of the root directory with <code>ls</code>. And our suspicions are confirmed to be true, the <code>root.txt</code> file is sitting there in the root directory. </p>
-<p>The final command will be <code>cat root.txt</code>, and we now have out root flag!</p>
+<p>The final command will be <code>cat root.txt</code>, and we now have our root flag!</p>
 
 <div class="code-block">
   <div class="code-block-head">

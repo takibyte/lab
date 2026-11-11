@@ -156,7 +156,7 @@ Let's break down the command:
 - `http-post-form` specifies the service type to be targeted, for this service type there are 3 parts separated by a colon:
     - `/admin/` is the URL path being targeted
     - `user=^USER^&pass=^PASS^` uses the `user` and `pass` form input name values being targeted (as mentioned earlier), `^USER^` and `^PASS^` are used as a placeholder/marker for the substituted values to be attempted by Hydra
-    - `F=Username or password invalid"` indicates text found in the failure response
+    - `F=Username or password invalid` indicates text found in the failure response
 - `-t` specifies the number of threads to be used (more is faster but noisier)
 - `-f` tells Hydra to stop as soon as a valid login is found
 - `-V` specifies verbose mode, giving more information as the command runs
@@ -214,7 +214,7 @@ I did this with the following commands:
 
 ```
 ls -l
-chmod -600 id_rsa
+chmod 600 id_rsa
 stat id_rsa
 ```
 
@@ -225,7 +225,7 @@ Below is the output of these commands.
 Breaking these commands down:
 - With `ls -l` I listed the files in my current directory (the directory containing the key file). The `-l` flag displays the list in the 'long list' format, which includes more details like file permissions.
 Looking at the output, we can see the `id_rsa` file has the permissions: `-rw-rw-r--`. These permissions work out to be read and write `rw-` (6) for the Owner permissions, `rw-` (6) for the Group permissions, and read `r--` (4) for the Other permissions, 664 total. These permissions are too open for a private key file, hence why ssh rejected the using the key. We need to set stricter permissions, so only the Owner of the key can use the file.
-- `chmod -600 id_rsa`, this command `chmod` or 'change mode', modifies file permissions on the system. By using `-600` we can change the file permission for the file `id_rsa` to `600`. This is equivalent to `-rw-------`, so that only the Owner can read and write, the Group and Other permission areas can't do anything.
+- `chmod -600 id_rsa`, this command `chmod` or 'change mode', modifies file permissions on the system. By using `600` we can change the file permission for the file `id_rsa` to `600`. This is equivalent to `-rw-------`, so that only the Owner can read and write, the Group and Other permission areas can't do anything.
 - To test that the permissions have correctly changed, we can use the command `stat id_rsa`, this gives us detailed status information about the file (including permissions), and from the output we can notice that the file now has the new permission number of `600`
 
 :::note
@@ -245,7 +245,7 @@ Looking at the output from the login command in the screenshot above, we can see
 
 Fortunately there is also a way to brute-force or do a dictionary attack on this passphrase. Ironically, we can use a hash cracking tool called `John` (short for John the Ripper), to convert our private key into a hash, and then to crack that hash.
 
-To do this conversion we can use `ssh2john`, a tool complimentary to `john` (and part of its password cracking suite), which will extract the encrypted passphrase from the key, and convert it into a hash format that `john` can use.
+To do this conversion we can use `ssh2john`, a tool complementary to `john` (and part of its password cracking suite), which will extract the encrypted passphrase from the key, and convert it into a hash format that `john` can use.
 
 Here is the command for that conversion:
 
@@ -331,7 +331,7 @@ One of the highest value targets for us right now is getting root's password. On
 A common way to start finding ways to escalate privileges on Unix-like systems, is to check [GTFOBins](https://gtfobins.org/), it has a searchable library of built-in functions that can be exploited to elevate privileges.
 :::
 
-Let's use out new-found ability, using `cat` as root to read the `/etc/shadow` passwords file with the following command.
+Let's use our new-found ability, using `cat` as root to read the `/etc/shadow` passwords file with the following command.
 
 ```
 sudo cat /etc/shadow
@@ -346,8 +346,7 @@ However, these passwords are stored in a hash format, so we can't simply use the
 In the following command I use `echo` to print root's password hash, and redirect it into a new file called `root_hash` with `>`. Then I used essentially the same `john` command as before on this new `root_hash` file, with the `rockyou.txt` word list.
 
 ```
-echo 'root:$6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47L0Ag/OpZvJ1gKbLF8PJBdKJA
-4а6М.JYPUTAaWu4infDjI889yUXEVgL.:18490:0:99999:7:::' > root_hash
+echo 'root:$6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ1gKbLF8PJBdKJA4a6M.JYPUTAaWu4infDjI88U9yUXEVgL.:18490:0:99999:7:::' > root_hash
 
 john --wordlist=/usr/share/wordlists/rockyou.txt root_hash
 ```
@@ -364,7 +363,7 @@ First we will want to log in as root. We can do this with `su root`, this is to 
 
 Next, we need to search around for `root.txt`. The most obvious place is in the root folder, so let's change directory with `cd /root/`. Now we can list the contents of the root directory with `ls`. And our suspicions are confirmed to be true, the `root.txt` file is sitting there in the root directory. 
 
-The final command will be `cat root.txt`, and we now have out root flag!
+The final command will be `cat root.txt`, and we now have our root flag!
 
 ```
 su root
