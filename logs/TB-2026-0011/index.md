@@ -69,7 +69,7 @@ Now we need to look for any information about the Linux distribution. Thankfully
 
 ### What is the hidden directory?
 
-At this point be have found a few useful pieces of information in the reconnaissance so far. We have two open ports to target. We also know that one of them is a web server, because it is port 80 running an http service with a particular Apache version.
+At this point we have found a few useful pieces of information in the reconnaissance so far. We have two open ports to target. We also know that one of them is a web server, because it is port 80 running an http service with a particular Apache version.
 
 We could take a few different approaches at this point, but the next question is quite clear in the intended direction. We need to find the hidden directory. This would likely be referencing a web directory as we have access to the public facing web server already at: http://10.146.186.112
 
@@ -102,7 +102,7 @@ Here we can see an admin login panel. Going along with the question, we want to 
 
 The first thing I did was view the page source by right-clicking and selecting view source.
 
-![gobuster](./images/6_admin_source.webp)
+![admin source](./images/6_admin_source.webp)
 
 In this image we can see the html source code of the admin panel. There is some useful information here.
 
@@ -115,7 +115,7 @@ So from this we have half of the login info, the username is `admin`. Having thi
 
 Before doing that we can also note in the source code the name values `user` and `pass` of the input tags in the form. These values will be needed for our Hydra command to brute-force the password.
 
-![gobuster](./images/7_admin_request.webp)
+![admin request](./images/7_admin_request.webp)
 
 Another way of confirming these form input name values is shown in this image here. Here I've opened the browser developer tools and navigated to the network tab. Next I attempted to log in with any username and password to test the request to and response from the server/target machine. This first image shows the information from the resulting http POST request (as found in the request tab of this particular POST request).
 
@@ -131,7 +131,7 @@ So we can see again that the form input values are `user` and `pass`, and that t
 Hydra needs these values in order to know how to make legitimate requests to the server when brute-forcing the admin panel.
 
 
-![gobuster](./images/8_admin_response.webp)
+![admin response](./images/8_admin_response.webp)
 
 This image shows the response tab from the same test request I made. Here I've toggled the raw html code, and we can see the actual html response body that was received back to the client/browser.
 
@@ -162,18 +162,18 @@ Let's break down the command:
 - `-V` specifies verbose mode, giving more information as the command runs
 
 
-![gobuster](./images/9_hydra.webp)
+![hydra 1](./images/9_hydra.webp)
 
 Here we can see the command as it begins to run.
 
 
-![gobuster](./images/10_hydra.webp)
+![hydra 2](./images/10_hydra.webp)
 
 And here we can see the end of the output after 563 attempts, Hydra successfully did a dictionary attack on the login and found the correct password for the admin username, as shown in the screenshot above.
 
 Nice! We should now have access to the admin panel at http://10.146.186.112/admin. If we now enter in the username and password we just discovered we will successfully login and be greeted with the webpage as shown in the image below.
 
-![gobuster](./images/11_password_success_panel.webp)
+![password success panel](./images/11_password_success_panel.webp)
 
 On this page we can see a few things:
 
@@ -188,13 +188,13 @@ Saving the flag for later, let's click through and view the RSA key link.
 
 The next question is asking what John's private key passphrase is, well, after clicking through we can see an RSA private key which is a big find, but we do not yet have the passphrase for this private key. Below we can see a screenshot of the RSA private key.
 
-![gobuster](./images/12_rsa_private_key.webp)
+![rsa private key](./images/12_rsa_private_key.webp)
 
 Let's see what we can do with this private key. An RSA private key is a cryptographic key often used for making ssh logins more secure than using just a password, and we know that we have already found an open port that uses the ssh service at tcp port 22. Let's see what happens when we try to log in to ssh on the target machine using this private key that we have acquired.
 
 To do this we'll quickly make a private key file using the key we found, I simply created a file called `id_rsa` using nano (the CLI text editor), pasted in the key, saved the file and checked the output using `cat id_rsa`. These steps can be seen in the screenshot below.
 
-![gobuster](./images/13_create_rsa_key.webp)
+![create rsa key](./images/13_create_rsa_key.webp)
 
 Now that we have the private key in a file, we can try to log in to John's account on the target machine using his ssh login information. We can do this with the following ssh command:
 
@@ -207,7 +207,7 @@ ssh -i id_rsa john@10.146.186.112
     - `john` is the username I am guessing is used for John's account
     - `@10.146.186.112` specifies which machine we want to log in `@`, in this case it is going to be the target machine `10.146.186.112`
 
-![gobuster](./images/14_bad_permissions.webp)
+![bad permissions](./images/14_bad_permissions.webp)
 
 After attempting to log in using the command and following the prompts, we see the output as seen in the image above. It is saying that the permissions of the private key file are too open, and as a protective measure it won't let us use the key file. To fix this we can change the file permissions of the key file to be more restrictive.
 I did this with the following commands:
@@ -220,7 +220,7 @@ stat id_rsa
 
 Below is the output of these commands.
 
-![gobuster](./images/15_chmod.webp)
+![chmod](./images/15_chmod.webp)
 
 Breaking these commands down:
 - With `ls -l` I listed the files in my current directory (the directory containing the key file). The `-l` flag displays the list in the 'long list' format, which includes more details like file permissions.
@@ -239,7 +239,7 @@ ssh -i id_rsa john@10.146.186.112
 ```
 
 
-![gobuster](./images/16_ssh_need_passphrase.webp)
+![ssh needs passphrase](./images/16_ssh_need_passphrase.webp)
 
 Looking at the output from the login command in the screenshot above, we can see we've made some progress, the private key has been accepted, but it now asks us for a passphrase.
 
@@ -255,7 +255,7 @@ ssh2john id_rsa > rsa_hash
 
 This command simply uses `ssh2john` on our `id_rsa` key file, and then redirects that (with `>`) into a new file called `rsa_hash`.
 
-![gobuster](./images/17_ssh2john.webp)
+![ssh2john](./images/17_ssh2john.webp)
 
 Now that we have a hash of the passphrase from the private key, we can use John the Ripper to do the dictionary attack with the command below.
 
@@ -270,7 +270,7 @@ Breaking down the command:
 - `rsa_hash` is the file we just created containing the hash to be cracked.
 
 
-![gobuster](./images/18_hash_cracked.webp)
+![hash cracked](./images/18_hash_cracked.webp)
 
 The result from the command can be seen in the screenshot above, and we can see that we have successfully cracked the hash and acquired the passphrase for the private key.
 
@@ -284,7 +284,7 @@ Using the same command as we've used before, we'll use an ssh login command spec
 ssh -i id_rsa john@10.146.186.112
 ```
 
-![gobuster](./images/19_ssh_access.webp)
+![ssh access](./images/19_ssh_access.webp)
 
 Excellent, as we can see, after providing our newly acquired passphrase from the last step, we now have successfully logged in to John's account on the target machine and gotten a shell!
 
@@ -292,7 +292,7 @@ Now that we are in the account, naturally we'll want to look around. Also, the n
 
 Using `ls` we can list the files in our current directory.
 
-![gobuster](./images/20_user_text_flag.webp)
+![user.txt flag](./images/20_user_text_flag.webp)
 
 As seen in the image here, conveniently the current directory has the exact file we are after: `user.txt`. We can use `cat user.txt` to output the contents of the file to the shell.
 
@@ -321,7 +321,7 @@ We can use `sudo -l` to list any sudo/root privileges we might have on John's ac
 sudo -l
 ```
 
-![gobuster](./images/21_sudo-l.webp)
+![sudo -l](./images/21_sudo-l.webp)
 
 Looking at the output of this command, fortunately we can see we have something. It says John has root permissions to run the `/bin/cat` binary without a password. This is the same `cat` command we use to read (concatenate) files and output them to the shell. This is a vulnerability we can exploit, it means we can use `cat` to read any file on the system that would otherwise need root permissions to interact with. 
 
@@ -337,7 +337,7 @@ Let's use out new-found ability, using `cat` as root to read the `/etc/shadow` p
 sudo cat /etc/shadow
 ```
 
-![gobuster](./images/22_sudo_cat_shadow.webp)
+![sudo cat shadow](./images/22_sudo_cat_shadow.webp)
 
 It worked! Great, so now we can see all the passwords for the system found in the shadow file, including root's password. 
 
@@ -352,7 +352,7 @@ echo 'root:$6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47L0Ag/OpZvJ1gKbLF8PJBdKJA
 john --wordlist=/usr/share/wordlists/rockyou.txt root_hash
 ```
 
-![gobuster](./images/23_root_cracked.webp)
+![root cracked](./images/23_root_cracked.webp)
 
 Looking at the results of these two commands, we can see that it worked, we now have root's password.
 
@@ -373,7 +373,7 @@ ls
 cat root
 ```
 
-![gobuster](./images/24_root_access.webp)
+![root access](./images/24_root_access.webp)
 
 
 And with that final flag, we have now completed the Brute It CTF. Thanks for reading! I hope you'll join me for the next one.
