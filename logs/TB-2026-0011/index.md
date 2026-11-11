@@ -225,7 +225,7 @@ Below is the output of these commands.
 Breaking these commands down:
 - With `ls -l` I listed the files in my current directory (the directory containing the key file). The `-l` flag displays the list in the 'long list' format, which includes more details like file permissions.
 Looking at the output, we can see the `id_rsa` file has the permissions: `-rw-rw-r--`. These permissions work out to be read and write `rw-` (6) for the Owner permissions, `rw-` (6) for the Group permissions, and read `r--` (4) for the Other permissions, 664 total. These permissions are too open for a private key file, hence why ssh rejected the using the key. We need to set stricter permissions, so only the Owner of the key can use the file.
-- `chmod -600 id_rsa`, this command `chmod` or 'change mode', modifies file permissions on the system. By using `600` we can change the file permission for the file `id_rsa` to `600`. This is equivalent to `-rw-------`, so that only the Owner can read and write, the Group and Other permission areas can't do anything.
+- `chmod 600 id_rsa`, this command `chmod` or 'change mode', modifies file permissions on the system. By using `600` we can change the file permission for the file `id_rsa` to `600`. This is equivalent to `-rw-------`, so that only the Owner can read and write, the Group and Other permission areas can't do anything.
 - To test that the permissions have correctly changed, we can use the command `stat id_rsa`, this gives us detailed status information about the file (including permissions), and from the output we can notice that the file now has the new permission number of `600`
 
 :::note
