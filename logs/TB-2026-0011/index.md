@@ -364,13 +364,13 @@ First we will want to log in as root. We can do this with `su root`, this is to 
 
 Next, we need to search around for `root.txt`. The most obvious place is in the root folder, so let's change directory with `cd /root/`. Now we can list the contents of the root directory with `ls`. And our suspicions are confirmed to be true, the `root.txt` file is sitting there in the root directory. 
 
-The final command will be `cat root`, and we now have out root flag!
+The final command will be `cat root.txt`, and we now have out root flag!
 
 ```
 su root
 cd /root/
 ls
-cat root
+cat root.txt
 ```
 
 ![root access](./images/24_root_access.webp)

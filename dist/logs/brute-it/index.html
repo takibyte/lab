@@ -531,7 +531,7 @@ Looking at the output, we can see the <code>id_rsa</code> file has the permissio
 <p>We are here, the final question. We have root&#39;s password, and our task is to read <code>root.txt</code>, which presumably contains the final flag.</p>
 <p>First we will want to log in as root. We can do this with <code>su root</code>, this is to switch users to the username <code>root</code>. From there we can enter the password we just found, and we are now logged in as root!</p>
 <p>Next, we need to search around for <code>root.txt</code>. The most obvious place is in the root folder, so let&#39;s change directory with <code>cd /root/</code>. Now we can list the contents of the root directory with <code>ls</code>. And our suspicions are confirmed to be true, the <code>root.txt</code> file is sitting there in the root directory. </p>
-<p>The final command will be <code>cat root</code>, and we now have out root flag!</p>
+<p>The final command will be <code>cat root.txt</code>, and we now have out root flag!</p>
 
 <div class="code-block">
   <div class="code-block-head">
@@ -544,7 +544,7 @@ Looking at the output, we can see the <code>id_rsa</code> file has the permissio
   <pre>su root
 <span class="hljs-built_in">cd</span> /root/
 <span class="hljs-built_in">ls</span>
-<span class="hljs-built_in">cat</span> root</pre>
+<span class="hljs-built_in">cat</span> root.txt</pre>
 </div><p><img src="./images/24_root_access.webp" alt="root access"></p>
 <p>And with that final flag, we have now completed the Brute It CTF. Thanks for reading! I hope you&#39;ll join me for the next one.</p>
 
