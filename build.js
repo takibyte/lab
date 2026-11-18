@@ -377,13 +377,20 @@ function hasSubheadings(headings) {
   return headings.some((h, i) => h.level === 2 && headings[i + 1] && headings[i + 1].level === 3);
 }
 
+// Shared by the desktop sidebar and mobile panel. The label and icon are
+// separate elements so the click handler can update them independently.
+function renderExpandAll(headings) {
+  if (!hasSubheadings(headings)) return '';
+  return `<button type="button" class="toc-expand-all mono"><span class="toc-expand-label">expand all</span><span class="toc-expand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg></span></button>`;
+}
+
 function renderTocMobileBlock(headings, title, id) {
-  const expandAll = hasSubheadings(headings) ? `<button type="button" class="toc-expand-all mono">expand all</button>` : '';
+  const expandAll = renderExpandAll(headings);
   return `
     <details class="toc-mobile">
       <summary><span class="toc-summary-label"><span class="toc-summary-prefix">// ${id}</span><span class="toc-current mono">#<span id="toc-current-text"></span></span></span></summary>
       <nav class="toc-nav">
-        <a href="#" class="toc-mobile-title toc-top-link">${title} ↑</a>
+        <a href="#" class="toc-mobile-title toc-top-link"><span class="toc-mobile-title-text">${title}</span><span class="toc-mobile-arrow">↑</span></a>
         ${expandAll}
         ${renderTocLinks(headings)}
       </nav>
@@ -391,7 +398,7 @@ function renderTocMobileBlock(headings, title, id) {
 }
 
 function renderTocRightBlock(headings, title, id) {
-  const expandAll = hasSubheadings(headings) ? `<button type="button" class="toc-expand-all mono">expand all</button>` : '';
+  const expandAll = renderExpandAll(headings);
   return `
     <aside class="toc">
       <a href="#" class="toc-label mono toc-top-link toc-title-link">// contents <span class="toc-arrow">↑</span></a>

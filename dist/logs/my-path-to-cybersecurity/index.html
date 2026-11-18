@@ -121,8 +121,8 @@
     <details class="toc-mobile">
       <summary><span class="toc-summary-label"><span class="toc-summary-prefix">// TB-2026-0001</span><span class="toc-current mono">#<span id="toc-current-text"></span></span></span></summary>
       <nav class="toc-nav">
-        <a href="#" class="toc-mobile-title toc-top-link">My path to cybersecurity ↑</a>
-        <button type="button" class="toc-expand-all mono">expand all</button>
+        <a href="#" class="toc-mobile-title toc-top-link"><span class="toc-mobile-title-text">My path to cybersecurity</span><span class="toc-mobile-arrow">↑</span></a>
+        <button type="button" class="toc-expand-all mono"><span class="toc-expand-label">expand all</span><span class="toc-expand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg></span></button>
         
       <div class="toc-group-wrap"><div class="toc-h2-row">
         <a href="#the-plan" class="toc-link toc-level-2" data-target="the-plan">The plan</a>
@@ -285,7 +285,7 @@
   
     <aside class="toc">
       <a href="#" class="toc-label mono toc-top-link toc-title-link">// contents <span class="toc-arrow">↑</span></a>
-      <button type="button" class="toc-expand-all mono">expand all</button>
+      <button type="button" class="toc-expand-all mono"><span class="toc-expand-label">expand all</span><span class="toc-expand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg></span></button>
       <nav class="toc-nav">
       <div class="toc-group-wrap"><div class="toc-h2-row">
         <a href="#the-plan" class="toc-link toc-level-2" data-target="the-plan">The plan</a>
@@ -466,8 +466,10 @@ if (tocSidebar || mobileToc || leftGutter) {
       const allPinned = allGroupIds.every((id) => pinnedGroups.has(id));
       if (allPinned) pinnedGroups.clear();
       else allGroupIds.forEach((id) => pinnedGroups.add(id));
-      document.querySelectorAll('.toc-expand-all')
-        .forEach((b) => { b.textContent = allPinned ? 'expand all' : 'collapse all'; });
+      document.querySelectorAll('.toc-expand-all').forEach((b) => {
+        b.querySelector('.toc-expand-label').textContent = allPinned ? 'expand all' : 'collapse all';
+        b.classList.toggle('is-expanded', !allPinned);
+      });
       updateActiveHeading();
     });
   });

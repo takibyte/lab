@@ -1424,7 +1424,7 @@ article.body img{
   position:fixed;
   top:0;left:0;right:0;
   z-index:50;
-  background:var(--surface);
+  background:var(--bg);
   border-bottom:3px solid var(--accent-1);
   padding:14px 18px;
   overflow-x:hidden;
@@ -1475,17 +1475,31 @@ article.body img{
 /* .toc-label.active{color:var(--accent-1);border-left-color:var(--accent-1);} */
 
 .toc-arrow{
+  flex-shrink:0;
   opacity:0;
   transition:opacity .2s ease;
 }
 .toc-arrow.visible{opacity:1;}
 
+.toc-title-link{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
 .toc-mobile-title{
-  display:block;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
   font-size:13px;color:var(--ink);
   padding-bottom:16px;
   border-bottom:1px solid var(--line);
 }
+.toc-mobile-title-text{min-width:0;overflow-wrap:break-word;}
+.toc-mobile-arrow{flex-shrink:0;}
+
 .toc-mobile-title:hover{color:var(--accent-1);}
 .toc-current{color:var(--muted);font-weight:normal;}
 
@@ -1617,7 +1631,7 @@ article.body h2, article.body h3{scroll-margin-top:88px;}
 
 .toc-group-toggle{
   flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
+  display:flex;align-items:center;justify-content:flex-end;
   width:18px;height:18px;
   background:none;border:none;
   color:var(--muted);cursor:pointer;padding:0;
@@ -1649,7 +1663,11 @@ article.body h2, article.body h3{scroll-margin-top:88px;}
 
 
 .toc-expand-all{
-  display:block;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
   text-align:left;
   background:none;border:none;
   font-size:11px;color:var(--muted);
@@ -1657,6 +1675,13 @@ article.body h2, article.body h3{scroll-margin-top:88px;}
   margin-bottom:14px;
 }
 .toc-expand-all:hover{color:var(--accent-1);}
+.toc-expand-icon{
+  width:18px;height:18px;
+  display:flex;align-items:center;justify-content:flex-end;
+  flex-shrink:0;
+}
+.toc-expand-icon svg{transition:transform .2s ease;}
+.toc-expand-all.is-expanded .toc-expand-icon svg{transform:rotate(180deg);}
 
 .toc-group-wrap{
 
