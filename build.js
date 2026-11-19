@@ -388,7 +388,7 @@ function renderTocMobileBlock(headings, title, id) {
   const expandAll = renderExpandAll(headings);
   return `
     <details class="toc-mobile">
-      <summary><span class="toc-summary-label"><span class="toc-summary-prefix">${id}</span><span class="toc-current mono">#&nbsp;<span id="toc-current-text"></span></span></span></summary>
+      <summary><span class="toc-summary-label"><span class="toc-summary-prefix">// ${id}</span><span class="toc-current mono">#&nbsp;<span id="toc-current-text"></span></span></span></summary>
       <nav class="toc-nav">
         <a href="#" class="toc-mobile-title toc-top-link"><span class="toc-mobile-title-text">${title}</span><span class="toc-mobile-arrow">↑</span></a>
         ${expandAll}
@@ -443,7 +443,7 @@ function renderTocCrumbLeftBlock(prevLog, nextLog, seriesInfo, id) {
 
   return `
     <aside class="toc-crumb-desktop">
-      <a href="#" class="toc-label mono toc-top-link toc-title-link">${id}</a>
+      <a href="#" class="toc-label mono toc-top-link toc-title-link">// ${id}</a>
       <div class="toc-crumb-nav">
         ${prevHtml}
         ${nextHtml}
